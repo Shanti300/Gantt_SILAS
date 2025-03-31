@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Diagrama de Gantt - Proyecto de Gestión de Turnos</title>
+    <style>
+        :root {
+            --critical-color: #e74c3c;
+            --non-critical-color: #3498db;
+            --bg-color: #f9f9f9;
+            --border-color: #ddd;
+            --header-bg: #34495e;
+            --header-color: white;
+            --column-width: 60px; /* Ancho uniforme para cada columna de semana */
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--bg-color);
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            overflow-x: auto;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .gantt-chart {
+            position: relative;
+            margin-top: 50px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            overflow: hidden;
+            background: white;
+        }
+        
+        .time-axis {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--header-bg);
+            color: var(--header-color);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .axis-unit {
+            width: var(--column-width);
+            min-width: var(--column-width);
+            text-align: center;
+            padding: 10px 5px;
+            font-weight: bold;
+            border-right: 1px solid rgba(255,255,255,0.2);
+            box-sizing: border-box;
+        }
+        
+        .axis-unit:first-child {
+            width: 280px;
+            min-width: 280px;
+            text-align: left;
+            padding-left: 15px;
+        }
+        
+        .gantt-row {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            height: 60px;
+        }
+        
+        .gantt-row:nth-child(even) {
+            background-color: rgba(0,0,0,0.02);
+        }
+        
+        .gantt-row.main-task {
+            background-color: rgba(0,0,0,0.05);
+            font-weight: bold;
+        }
+        
+        .task-label {
+            width: 280px;
+            min-width: 280px;
+            padding: 8px 10px;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            box-sizing: border-box;
+        }
+        
+        .task-label.subtask {
+            padding-left: 30px;
+            font-style: italic;
+        }
+        
+        .time-unit {
+            width: var(--column-width);
+            min-width: var(--column-width);
+            border-right: 1px dotted var(--border-color);
+            box-sizing: border-box;
+        }
+        
+        .bar {
+            position: absolute;
+            height: 60%;
+            top: 20%;
+            z-index: 1;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .critical {
+            border: 2px solid rgba(0,0,0,0.2);
+        }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin: 0 10px;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 3px;
+            border: 1px solid rgba(0,0,0,0.2);
+        }
+        
+        .critical-badge {
+            background-color: var(--critical-color);
+            color: white;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 10px;
+            margin-left: 5px;
+        }
+        
+        .task-info {
+            margin-left: auto;
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Diagrama de Gantt - Proyecto de Gestión de Turnos</h1>
+        
+        <div class="gantt-chart">
+            <!-- Time Axis -->
+            <div class="time-axis">
+                <div class="axis-unit">Actividad</div>
+                <div class="axis-unit">Sem 1</div>
+                <div class="axis-unit">Sem 2</div>
+                <div class="axis-unit">Sem 3</div>
+                <div class="axis-unit">Sem 4</div>
+                <div class="axis-unit">Sem 5</div>
+                <div class="axis-unit">Sem 6</div>
+                <div class="axis-unit">Sem 7</div>
+                <div class="axis-unit">Sem 8</div>
+                <div class="axis-unit">Sem 9</div>
+                <div class="axis-unit">Sem 10</div>
+                <div class="axis-unit">Sem 11</div>
+                <div class="axis-unit">Sem 12</div>
+                <div class="axis-unit">Sem 13</div>
+                <div class="axis-unit">Sem 14</div>
+                <div class="axis-unit">Sem 15</div>
+                <div class="axis-unit">Sem 16</div>
+                <div class="axis-unit">Sem 17</div>
+                <div class="axis-unit">Sem 18</div>
+            </div>
+            
+            <!-- Activity A and subtasks -->
+            <div class="gantt-row main-task">
+                <div class="task-label">A. Definir requisitos funcionales y no funcionales <span class="critical-badge">Crítica</span><span class="task-info">1 sem</span></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="bar critical" style="left: 280px; width: var(--column-width); background-color: #e74c3c;">A</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">A.1 Encuestas a los usuarios<span class="task-info">0.5 sem</span></div>
+                <div class="bar" style="left: 280px; width: calc(var(--column-width) / 2); background-color: #f39c12;">A.1</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">A.2 Estudiar métodos actuales<span class="task-info">0.5 sem</span></div>
+                <div class="bar" style="left: 280px; width: calc(var(--column-width) / 2); background-color: #f39c12;">A.2</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">A.3 Definir funcionalidades específicas<span class="task-info">0.5 sem</span></div>
+                <div class="bar" style="left: calc(280px + var(--column-width) / 2); width: calc(var(--column-width) / 2); background-color: #f39c12;">A.3</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">A.4 Documentar requerimientos<span class="task-info">0.5 sem</span></div>
+                <div class="bar" style="left: calc(280px + var(--column-width) / 2); width: calc(var(--column-width) / 2); background-color: #f39c12;">A.4</div>
+            </div>
+            
+            <!-- Activity B and subtasks -->
+            <div class="gantt-row main-task">
+                <div class="task-label">B. Análisis de mercado y viabilidad<span class="task-info">1 sem</span></div>
+                <div class="bar" style="left: 280px; width: var(--column-width); background-color: #3498db;">B</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">B.1 Estudio de competencia<span class="task-info">0.5 sem</span></div>
+                <div class="bar" style="left: 280px; width: calc(var(--column-width) / 2); background-color: #67b0e0;">B.1</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">B.2 Análisis financiero<span class="task-info">0.5 sem</span></div>
+                <div class="bar" style="left: calc(280px + var(--column-width) / 2); width: calc(var(--column-width) / 2); background-color: #67b0e0;">B.2</div>
+            </div>
+            
+            <!-- Activity C and subtasks -->
+            <div class="gantt-row main-task">
+                <div class="task-label">C. Diseñar la arquitectura del sistema <span class="critical-badge">Crítica</span><span class="task-info">1 sem</span></div>
+                <div class="bar critical" style="left: calc(280px + var(--column-width)); width: var(--column-width); background-color: #2ecc71;">C</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">C.1 Casos de uso (Relación usuario-Software)<span class="task-info">0.5 sem</span></div>
+                <div class="bar" style="left: calc(280px + var(--column-width)); width: calc(var(--column-width) / 2); background-color: #7de7a8;">C.1</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">C.2 Diagramar estructura del sistema<span class="task-info">0.5 sem</span></div>
+                <div class="bar" style="left: calc(280px + var(--column-width) * 1.5); width: calc(var(--column-width) / 2); background-color: #7de7a8;">C.2</div>
+            </div>
+            
+            <!-- Activity D and subtasks -->
+            <div class="gantt-row main-task">
+                <div class="task-label">D. Elaborar prototipo de interfaz de usuario<span class="task-info">1 sem</span></div>
+                <div class="bar" style="left: calc(280px + var(--column-width)); width: var(--column-width); background-color: #9b59b6;">D</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">D.1 Wireframes<span class="task-info">0.5 sem</span></div>
+                <div class="bar" style="left: calc(280px + var(--column-width)); width: calc(var(--column-width) / 2); background-color: #c593db;">D.1</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">D.2 Mockups interactivos<span class="task-info">0.5 sem</span></div>
+                <div class="bar" style="left: calc(280px + var(--column-width) * 1.5); width: calc(var(--column-width) / 2); background-color: #c593db;">D.2</div>
+            </div>
+            
+            <!-- Activity E and subtasks -->
+            <div class="gantt-row main-task">
+                <div class="task-label">E. Configurar el entorno de desarrollo <span class="critical-badge">Crítica</span><span class="task-info">1 sem</span></div>
+                <div class="bar critical" style="left: calc(280px + var(--column-width) * 2); width: var(--column-width); background-color: #e67e22;">E</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">E.1 Instalación de herramientas<span class="task-info">0.3 sem</span></div>
+                <div class="bar" style="left: calc(280px + var(--column-width) * 2); width: calc(var(--column-width) * 0.3); background-color: #f0b68d;">E.1</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">E.2 Configuración de servidores<span class="task-info">0.3 sem</span></div>
+                <div class="bar" style="left: calc(280px + var(--column-width) * 2.3); width: calc(var(--column-width) * 0.3); background-color: #f0b68d;">E.2</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">E.3 Configuración de repositorios<span class="task-info">0.4 sem</span></div>
+                <div class="bar" style="left: calc(280px + var(--column-width) * 2.6); width: calc(var(--column-width) * 0.4); background-color: #f0b68d;">E.3</div>
+            </div>
+            
+            <!-- Activity F and subtasks -->
+            <div class="gantt-row main-task">
+                <div class="task-label">F. Diseñar y estructurar la base de datos <span class="critical-badge">Crítica</span><span class="task-info">1 sem</span></div>
+                <div class="bar critical" style="left: calc(280px + var(--column-width) * 3); width: var(--column-width); background-color: #1abc9c;">F</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">F.1 Modelo de datos<span class="task-info">0.5 sem</span></div>
+                <div class="bar" style="left: calc(280px + var(--column-width) * 3); width: calc(var(--column-width) / 2); background-color: #7edecb;">F.1</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">F.2 Implementación de esquemas<span class="task-info">0.5 sem</span></div>
+                <div class="bar" style="left: calc(280px + var(--column-width) * 3.5); width: calc(var(--column-width) / 2); background-color: #7edecb;">F.2</div>
+            </div>
+            
+            <!-- Activity G and subtasks -->
+            <div class="gantt-row main-task">
+                <div class="task-label">G. Implementar lógica de gestión de turnos y filas <span class="critical-badge">Crítica</span><span class="task-info">3 sem</span></div>
+                <div class="bar critical" style="left: calc(280px + var(--column-width) * 4); width: calc(var(--column-width) * 3); background-color: #f1c40f;">G</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">G.1 Algoritmos de gestión de filas<span class="task-info">1 sem</span></div>
+                <div class="bar" style="left: calc(280px + var(--column-width) * 4); width: var(--column-width); background-color: #f7dc6f;">G.1</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">G.2 Sistema de asignación de turnos<span class="task-info">1 sem</span></div>
+                <div class="bar" style="left: calc(280px + var(--column-width) * 5); width: var(--column-width); background-color: #f7dc6f;">G.2</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">G.3 Algoritmos de priorización<span class="task-info">1 sem</span></div>
+                <div class="bar" style="left: calc(280px + var(--column-width) * 6); width: var(--column-width); background-color: #f7dc6f;">G.3</div>
+            </div>
+            
+            <!-- Activity H and subtasks -->
+            <div class="gantt-row main-task">
+                <div class="task-label">H. Desarrollar sistema para operadores <span class="critical-badge">Crítica</span><span class="task-info">2 sem</span></div>
+                <div class="bar critical" style="left: calc(280px + var(--column-width) * 7); width: calc(var(--column-width) * 2); background-color: #e74c3c;">H</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">H.1 Desarrollo de panel de control<span class="task-info">1 sem</span></div>
+                <div class="bar" style="left: calc(280px + var(--column-width) * 7); width: var(--column-width); background-color: #f1978e;">H.1</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">H.2 Gestión de operadores<span class="task-info">1 sem</span></div>
+                <div class="bar" style="left: calc(280px + var(--column-width) * 8); width: var(--column-width); background-color: #f1978e;">H.2</div>
+            </div>
+            
+            <!-- Activity I and subtasks -->
+            <div class="gantt-row main-task">
+                <div class="task-label">I. Integrar sistema de notificaciones en tiempo real<span class="task-info">2 sem</span></div>
+                <div class="bar" style="left: calc(280px + var(--column-width) * 7); width: calc(var(--column-width) * 2); background-color: #3498db;">I</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">I.1 Sistema de notificaciones push<span class="task-info">1 sem</span></div>
+                <div class="bar" style="left: calc(280px + var(--column-width) * 7); width: var(--column-width); background-color: #75b9e7;">I.1</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">I.2 Integraciones con SMS/email<span class="task-info">1 sem</span></div>
+                <div class="bar" style="left: calc(280px + var(--column-width) * 8); width: var(--column-width); background-color: #75b9e7;">I.2</div>
+            </div>
+            
+            <!-- Activity J and subtasks -->
+            <div class="gantt-row main-task">
+                <div class="task-label">J. Desarrollar interfaz de usuario web y móvil<span class="task-info">3 sem</span></div>
+                <div class="bar" style="left: calc(280px + var(--column-width) * 4); width: calc(var(--column-width) * 3); background-color: #9b59b6;">J</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">J.1 Desarrollo frontend web<span class="task-info">1.5 sem</span></div>
+                <div class="bar" style="left: calc(280px + var(--column-width) * 4); width: calc(var(--column-width) * 1.5); background-color: #c893d8;">J.1</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">J.2 Desarrollo app móvil<span class="task-info">1.5 sem</span></div>
+                <div class="bar" style="left: calc(280px + var(--column-width) * 5.5); width: calc(var(--column-width) * 1.5); background-color: #c893d8;">J.2</div>
+            </div>
+            
+            <!-- Activity K and subtasks -->
+            <div class="gantt-row main-task">
+                <div class="task-label">K. Conectar frontend con backend mediante API <span class="critical-badge">Crítica</span><span class="task-info">2 sem</span></div>
+                <div class="bar critical" style="left: calc(280px + var(--column-width) * 9); width: calc(var(--column-width) * 2); background-color: #2ecc71;">K</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">K.1 Desarrollo de endpoints<span class="task-info">1 sem</span></div>
+                <div class="bar" style="left: calc(280px + var(--column-width) * 9); width: var(--column-width); background-color: #86e0ac;">K.1</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">K.2 Integración y pruebas de API<span class="task-info">1 sem</span></div>
+                <div class="bar" style="left: calc(280px + var(--column-width) * 10); width: var(--column-width); background-color: #86e0ac;">K.2</div>
+            </div>
+            
+            <!-- Activity L and subtasks -->
+            <div class="gantt-row main-task">
+                <div class="task-label">L. Pruebas funcionales y de integración <span class="critical-badge">Crítica</span><span class="task-info">2 sem</span></div>
+                <div class="bar critical" style="left: calc(280px + var(--column-width) * 11); width: calc(var(--column-width) * 2); background-color: #e67e22;">L</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">L.1 Pruebas unitarias<span class="task-info">0.5 sem</span></div>
+                <div class="bar" style="left: calc(280px + var(--column-width) * 11); width: calc(var(--column-width) / 2); background-color: #f0b68d;">L.1</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">L.2 Pruebas de integración<span class="task-info">0.5 sem</span></div>
+                <div class="bar" style="left: calc(280px + var(--column-width) * 11.5); width: calc(var(--column-width) / 2); background-color: #f0b68d;">L.2</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">L.3 Pruebas de aceptación<span class="task-info">1 sem</span></div>
+                <div class="bar" style="left: calc(280px + var(--column-width) * 12); width: var(--column-width); background-color: #f0b68d;">L.3</div>
+            </div>
+            
+            <!-- Activity M and subtasks -->
+            <div class="gantt-row main-task">
+                <div class="task-label">M. Optimización de rendimiento y seguridad <span class="critical-badge">Crítica</span><span class="task-info">2 sem</span></div>
+                <div class="bar critical" style="left: calc(280px + var(--column-width) * 13); width: calc(var(--column-width) * 2); background-color: #1abc9c;">M</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">M.1 Auditoría de seguridad<span class="task-info">1 sem</span></div>
+                <div class="bar" style="left: calc(280px + var(--column-width) * 13); width: var(--column-width); background-color: #76e0cb;">M.1</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">M.2 Optimización de rendimiento<span class="task-info">1 sem</span></div>
+                <div class="bar" style="left: calc(280px + var(--column-width) * 14); width: var(--column-width); background-color: #76e0cb;">M.2</div>
+            </div>
+            
+            <!-- Activity N and subtasks -->
+            <div class="gantt-row main-task">
+                <div class="task-label">N. Configuración del servidor y despliegue <span class="critical-badge">Crítica</span><span class="task-info">1 sem</span></div>
+                <div class="bar critical" style="left: calc(280px + var(--column-width) * 15); width: var(--column-width); background-color: #f1c40f;">N</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">N.1 Configuración de servidores<span class="task-info">0.5 sem</span></div>
+                <div class="bar" style="left: calc(280px + var(--column-width) * 15); width: calc(var(--column-width) / 2); background-color: #f7dc6f;">N.1</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">N.2 Despliegue en producción<span class="task-info">0.5 sem</span></div>
+                <div class="bar" style="left: calc(280px + var(--column-width) * 15.5); width: calc(var(--column-width) / 2); background-color: #f7dc6f;">N.2</div>
+            </div>
+            
+            <!-- Activity O and subtasks -->
+            <div class="gantt-row main-task">
+                <div class="task-label">O. Capacitación para administradores<span class="task-info">1 sem</span></div>
+                <div class="bar" style="left: calc(280px + var(--column-width) * 16); width: var(--column-width); background-color: #3498db;">O</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">O.1 Preparación de materiales<span class="task-info">0.5 sem</span></div>
+                <div class="bar" style="left: calc(280px + var(--column-width) * 16); width: calc(var(--column-width) / 2); background-color: #75b9e7;">O.1</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">O.2 Sesiones de capacitación<span class="task-info">0.5 sem</span></div>
+                <div class="bar" style="left: calc(280px + var(--column-width) * 16.5); width: calc(var(--column-width) / 2); background-color: #75b9e7;">O.2</div>
+            </div>
+            
+            <div class="gantt-row main-task">
+    <div class="task-label">P. Monitoreo y ajustes post-lanzamiento <span class="critical-badge">Crítica</span><span class="task-info">2 sem</span></div>
+    <div class="bar critical" style="left: calc(280px + var(--column-width) * 16); width: calc(var(--column-width) * 2); background-color: #9b59b6;">P</div>
+</div>
+<div class="gantt-row">
+    <div class="task-label subtask">P.1 Configuración de monitoreo<span class="task-info">0.5 sem</span></div>
+    <div class="bar" style="left: calc(280px + var(--column-width) * 16); width: calc(var(--column-width) / 2); background-color: #bb8fce;">P.1</div>
+</div>
+<div class="gantt-row">
+    <div class="task-label subtask">P.2 Recolección de feedback<span class="task-info">0.5 sem</span></div>
+    <div class="bar" style="left: calc(280px + var(--column-width) * 16.5); width: calc(var(--column-width) / 2); background-color: #bb8fce;">P.2</div>
+</div>
+<div class="gantt-row">
+    <div class="task-label subtask">P.3 Implementación de mejoras<span class="task-info">1 sem</span></div>
+    <div class="bar" style="left: calc(280px + var(--column-width) * 17); width: var(--column-width); background-color: #bb8fce;">P.3</div>
+</div>
+# Gantt_SILAS
