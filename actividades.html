@@ -1,21 +1,107 @@
-<html>
-A.1 Encuestas a los usuarios (0.5 sem)Cómo se hace: Diseñar un cuestionario sobre tiempos de espera, satisfacción y mejoras deseadas. Aplicarlo presencialmente o por formularios digitales (Google Forms, Typeform). Analizar respuestas para identificar patrones.
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividades del Proyecto</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/css/bootstrap.min.css">
+    <style>
+        body {
+            padding-top: 56px;
+            font-family: Arial, sans-serif;
+        }
+        .content {
+            margin-top: 30px;
+            padding: 20px;
+        }
+        h2 {
+            color: #34495e;
+            margin-bottom: 20px;
+        }
+        .activity {
+            margin-bottom: 30px;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #3498db;
+        }
+        .activity h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .resources {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed #ddd;
+        }
+    </style>
+</head>
+<body>
+    <!-- Menú de navegación -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">Proyecto de Gestión de Turnos</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" 
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Inicio</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="actividades.html">Actividades <span class="sr-only">(actual)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="gantt.html">Diagrama de Gantt</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-Recursos: Plataforma de encuestas, dispositivos móviles o impresos, acceso a usuarios.
+    <div class="container content">
+        <h2 class="text-center mb-4">Actividades del Proyecto</h2>
+        
+        <div class="activity">
+            <h3>A.1 Encuestas a los usuarios (0.5 sem)</h3>
+            <p><strong>Cómo se hace:</strong> Diseñar un cuestionario sobre tiempos de espera, satisfacción y mejoras deseadas. Aplicarlo presencialmente o por formularios digitales (Google Forms, Typeform). Analizar respuestas para identificar patrones.</p>
+            <div class="resources">
+                <p><strong>Recursos:</strong> Plataforma de encuestas, dispositivos móviles o impresos, acceso a usuarios.</p>
+            </div>
+        </div>
+        
+        <div class="activity">
+            <h3>A.2 Estudiar métodos actuales (0.5 sem)</h3>
+            <p><strong>Cómo se hace:</strong> Revisar sistemas de gestión de filas en otras empresas, estudiar software similar (turnos digitales, citas previas). Analizar documentación técnica y realizar entrevistas con empleados o clientes.</p>
+            <div class="resources">
+                <p><strong>Recursos:</strong> Documentación de software, informes de uso, entrevistas, Internet.</p>
+            </div>
+        </div>
+        
+        <div class="activity">
+            <h3>A.3 Definir funcionalidades específicas (0.5 sem)</h3>
+            <p><strong>Cómo se hace:</strong> Con base en encuestas y estudio de métodos, definir qué funciones tendrá el sistema (turnos virtuales, notificaciones, estimación de espera). Crear una lista priorizada y validar con stakeholders.</p>
+            <div class="resources">
+                <p><strong>Recursos:</strong> Reuniones con el equipo, software de gestión de proyectos (Trello, Notion), documentos de especificaciones.</p>
+            </div>
+        </div>
+        
+        <div class="activity">
+            <h3>A.4 Documentar requerimientos</h3>
+            <p><strong>Cómo se hace:</strong> Redactar un documento con requisitos funcionales y no funcionales, diagramas de flujo y casos de uso. Validar con el equipo antes de finalizar.</p>
+            <div class="resources">
+                <p><strong>Recursos:</strong> Procesador de texto (Google Docs, Word), herramientas de diagramación (Draw.io, Lucidchart), retroalimentación de stakeholders.</p>
+            </div>
+        </div>
+    </div>
 
-A.2 Estudiar métodos actuales (0.5 sem)
-Cómo se hace: Revisar sistemas de gestión de filas en otras empresas, estudiar software similar (turnos digitales, citas previas). Analizar documentación técnica y realizar entrevistas con empleados o clientes.
-
-Recursos: Documentación de software, informes de uso, entrevistas, Internet.
-
-A.3 Definir funcionalidades específicas (0.5 sem)
-Cómo se hace: Con base en encuestas y estudio de métodos, definir qué funciones tendrá el sistema (turnos virtuales, notificaciones, estimación de espera). Crear una lista priorizada y validar con stakeholders.
-
-Recursos: Reuniones con el equipo, software de gestión de proyectos (Trello, Notion), documentos de especificaciones.
-
-A.4 Documentar requerimientos
-Cómo se hace: Redactar un documento con requisitos funcionales y no funcionales, diagramas de flujo y casos de uso. Validar con el equipo antes de finalizar.
-
-Recursos: Procesador de texto (Google Docs, Word), herramientas de diagramación (Draw.io, Lucidchart), retroalimentación de stakeholders.
+    <!-- Bootstrap JS y dependencias -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/js/bootstrap.min.js"></script>
+</body>
 </html>
-
