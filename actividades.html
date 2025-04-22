@@ -469,5 +469,40 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/js/bootstrap.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const priceTags = document.querySelectorAll('.price-tag');
+    let totalMin = 0;
+    let totalMax = 0;
+    
+    priceTags.forEach(function(tag) {
+        const priceText = tag.textContent;
+        const priceMatch = priceText.match(/\$([0-9,]+)\s*-\s*\$([0-9,]+)/);
+        
+        if (priceMatch) {
+            const minPrice = parseInt(priceMatch[1].replace(/,/g, ''));
+            const maxPrice = parseInt(priceMatch[2].replace(/,/g, ''));
+            
+            totalMin += minPrice;
+            totalMax += maxPrice;
+        }
+    });
+    
+    // Crear el elemento para mostrar el total
+    const totalElement = document.createElement('div');
+    totalElement.classList.add('container', 'mt-4', 'mb-5');
+    totalElement.innerHTML = `
+        <div class="card bg-light">
+            <div class="card-body text-center">
+                <h3 class="card-title text-primary">Costo Total Estimado del Proyecto</h3>
+                <div class="h4 mt-3 font-weight-bold text-success">
+                    $${totalMin.toLocaleString()} - $${totalMax.toLocaleString()} USD
+                </div>
+            </div>
+        </div>
+    `;
+    document.querySelector('.container.content').appendChild(totalElement);
+});
+    </script>
 </body>
 </html>
