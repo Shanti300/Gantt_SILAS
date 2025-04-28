@@ -45,6 +45,35 @@
             border-left: 3px solid #2c5e2e;
         }
         
+        .percentage-tag {
+            background-color: #e4eaf4;
+            padding: 6px 10px;
+            border-radius: 4px;
+            display: inline-block;
+            font-weight: bold;
+            color: #2e4a5e;
+            margin-top: 10px;
+            margin-left: 10px;
+            border-left: 3px solid #2e4a5e;
+        }
+        
+        .activity-group-header {
+            background-color: #f5f5f5;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border-left: 6px solid #3498db;
+        }
+        
+        .checkpoint {
+            background-color: #fff3cd;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 5px;
+            border-left: 6px solid #ffc107;
+            text-align: center;
+        }
+        
         /* Colores individuales para cada tipo de actividad */
         .activity-a {
             border-left: 4px solid #f39c12; /* Naranja */
@@ -121,6 +150,13 @@
 
     <div class="container content">
         <h2 class="text-center mb-4">Subactividades del Proyecto con Estimación de Costos</h2>
+        <p class="text-center mb-4">Punto de control: De 21 de abril a 2 de agosto de 2025 (3.4 meses)</p>
+        
+        <!-- Grupo de actividades A -->
+        <div class="activity-group-header" id="group-a">
+            <h3>Definir requisitos funcionales y no funcionales (A.1 - A.4)</h3>
+            <div class="group-percentage"></div>
+        </div>
         
         <div class="activity activity-a">
             <h3>A.1 Encuestas a los usuarios</h3>
@@ -128,7 +164,8 @@
             <div class="resources">
                 <p><strong>Recursos:</strong> Plataforma de encuestas, dispositivos móviles o impresos, acceso a usuarios.</p>
             </div>
-            <div class="price-tag">Costo estimado: $18 - $25</div>
+            <div class="price-tag">Costo estimado: $25</div>
+            <div class="percentage-tag activity-percentage"></div>
         </div>
         
         <div class="activity activity-a">
@@ -137,7 +174,8 @@
             <div class="resources">
                 <p><strong>Recursos:</strong> Documentación de software, informes de uso, entrevistas, Internet.</p>
             </div>
-            <div class="price-tag">Costo estimado: $22 - $30</div>
+            <div class="price-tag">Costo estimado: $30</div>
+            <div class="percentage-tag activity-percentage"></div>
         </div>
         
         <div class="activity activity-a">
@@ -146,7 +184,8 @@
             <div class="resources">
                 <p><strong>Recursos:</strong> Reuniones con el equipo, software de gestión de proyectos (Trello, Notion), documentos de especificaciones.</p>
             </div>
-            <div class="price-tag">Costo estimado: $35 - $42</div>
+            <div class="price-tag">Costo estimado: $42</div>
+            <div class="percentage-tag activity-percentage"></div>
         </div>
         
         <div class="activity activity-a">
@@ -155,7 +194,14 @@
             <div class="resources">
                 <p><strong>Recursos:</strong> Procesador de texto (Google Docs, Word), herramientas de diagramación (Draw.io, Lucidchart), retroalimentación de stakeholders.</p>
             </div>
-            <div class="price-tag">Costo estimado: $28 - $35</div>
+            <div class="price-tag">Costo estimado: $35</div>
+            <div class="percentage-tag activity-percentage"></div>
+        </div>
+        
+        <!-- Grupo de actividades B -->
+        <div class="activity-group-header" id="group-b">
+            <h3>Análisis de mercado y viabilidad (B.1 - B.2)</h3>
+            <div class="group-percentage"></div>
         </div>
         
         <div class="activity activity-b">
@@ -164,7 +210,8 @@
             <div class="resources">
                 <p><strong>Recursos:</strong> Acceso a internet, suscripciones a informes de mercado, herramientas de análisis competitivo, plantillas de comparativa.</p>
             </div>
-            <div class="price-tag">Costo estimado: $32 - $40</div>
+            <div class="price-tag">Costo estimado: $40</div>
+            <div class="percentage-tag activity-percentage"></div>
         </div>
         
         <div class="activity activity-b">
@@ -173,7 +220,14 @@
             <div class="resources">
                 <p><strong>Recursos:</strong> Software de hojas de cálculo (Excel, Google Sheets), herramientas de análisis financiero, plantillas de presupuesto, datos históricos de proyectos similares.</p>
             </div>
-            <div class="price-tag">Costo estimado: $45 - $58</div>
+            <div class="price-tag">Costo estimado: $58</div>
+            <div class="percentage-tag activity-percentage"></div>
+        </div>
+        
+        <!-- Grupo de actividades C -->
+        <div class="activity-group-header" id="group-c">
+            <h3>Diseñar la arquitectura del sistema (C.1 - C.2)</h3>
+            <div class="group-percentage"></div>
         </div>
         
         <div class="activity activity-c">
@@ -182,7 +236,8 @@
             <div class="resources">
                 <p><strong>Recursos:</strong> Herramientas de modelado UML, plantillas de casos de uso, software de documentación, sesiones con usuarios.</p>
             </div>
-            <div class="price-tag">Costo estimado: $40 - $52</div>
+            <div class="price-tag">Costo estimado: $52</div>
+            <div class="percentage-tag activity-percentage"></div>
         </div>
         
         <div class="activity activity-c">
@@ -191,7 +246,14 @@
             <div class="resources">
                 <p><strong>Recursos:</strong> Herramientas de diagramación (Draw.io, Lucidchart), software de modelado UML, plantillas de arquitectura, sesiones con arquitectos de software.</p>
             </div>
-            <div class="price-tag">Costo estimado: $50 - $65</div>
+            <div class="price-tag">Costo estimado: $65</div>
+            <div class="percentage-tag activity-percentage"></div>
+        </div>
+        
+        <!-- Grupo de actividades D -->
+        <div class="activity-group-header" id="group-d">
+            <h3>Elaborar prototipo de interfaz de usuario (D.1 - D.2)</h3>
+            <div class="group-percentage"></div>
         </div>
         
         <div class="activity activity-d">
@@ -200,7 +262,8 @@
             <div class="resources">
                 <p><strong>Recursos:</strong> Herramientas de wireframing (Figma, Sketch, Adobe XD), plantillas UI, pizarras digitales, sesiones de colaboración con usuarios.</p>
             </div>
-            <div class="price-tag">Costo estimado: $38 - $48</div>
+            <div class="price-tag">Costo estimado: $48</div>
+            <div class="percentage-tag activity-percentage"></div>
         </div>
         
         <div class="activity activity-d">
@@ -209,7 +272,14 @@
             <div class="resources">
                 <p><strong>Recursos:</strong> Software de diseño UI/UX (Figma, Adobe XD, InVision), bibliotecas de componentes, guías de estilo, herramientas de prototipado.</p>
             </div>
-            <div class="price-tag">Costo estimado: $65 - $80</div>
+            <div class="price-tag">Costo estimado: $80</div>
+            <div class="percentage-tag activity-percentage"></div>
+        </div>
+        
+        <!-- Grupo de actividades E -->
+        <div class="activity-group-header" id="group-e">
+            <h3>Configurar el entorno de desarrollo (E.1 - E.3)</h3>
+            <div class="group-percentage"></div>
         </div>
         
         <div class="activity activity-e">
@@ -218,7 +288,8 @@
             <div class="resources">
                 <p><strong>Recursos:</strong> Guías de instalación, licencias de software, herramientas de virtualización, gestores de paquetes, documentación interna.</p>
             </div>
-            <div class="price-tag">Costo estimado: $15 - $22</div>
+            <div class="price-tag">Costo estimado: $22</div>
+            <div class="percentage-tag activity-percentage"></div>
         </div>
         
         <div class="activity activity-e">
@@ -227,7 +298,8 @@
             <div class="resources">
                 <p><strong>Recursos:</strong> Servicios cloud (AWS, Azure, GCP), herramientas de IaC (Terraform, Ansible), conocimientos de administración de sistemas, documentación técnica.</p>
             </div>
-            <div class="price-tag">Costo estimado: $42 - $55</div>
+            <div class="price-tag">Costo estimado: $55</div>
+            <div class="percentage-tag activity-percentage"></div>
         </div>
         
         <div class="activity activity-e">
@@ -236,7 +308,14 @@
             <div class="resources">
                 <p><strong>Recursos:</strong> Plataformas de gestión de repositorios (GitHub, GitLab, Bitbucket), herramientas CI/CD (Jenkins, GitHub Actions), documentación sobre flujos de trabajo Git.</p>
             </div>
-            <div class="price-tag">Costo estimado: $20 - $30</div>
+            <div class="price-tag">Costo estimado: $30</div>
+            <div class="percentage-tag activity-percentage"></div>
+        </div>
+        
+        <!-- Grupo de actividades F -->
+        <div class="activity-group-header" id="group-f">
+            <h3>Diseñar la estructura de la base de datos (F.1 - F.2)</h3>
+            <div class="group-percentage"></div>
         </div>
         
         <div class="activity activity-f">
@@ -245,7 +324,8 @@
             <div class="resources">
                 <p><strong>Recursos:</strong> Herramientas de modelado de datos (MySQL Workbench, pgModeler), sistemas de gestión de bases de datos, documentación de requisitos, expertos en datos.</p>
             </div>
-            <div class="price-tag">Costo estimado: $45 - $58</div>
+            <div class="price-tag">Costo estimado: $58</div>
+            <div class="percentage-tag activity-percentage"></div>
         </div>
         
         <div class="activity activity-f">
@@ -254,7 +334,14 @@
             <div class="resources">
                 <p><strong>Recursos:</strong> Sistemas de gestión de bases de datos (PostgreSQL, MySQL), herramientas ORM, frameworks de migración, scripts de carga de datos.</p>
             </div>
-            <div class="price-tag">Costo estimado: $38 - $50</div>
+            <div class="price-tag">Costo estimado: $50</div>
+            <div class="percentage-tag activity-percentage"></div>
+        </div>
+        
+        <!-- Grupo de actividades G -->
+        <div class="activity-group-header" id="group-g">
+            <h3>Implementar lógica de gestión de turnos y filas (G.1 - G.3)</h3>
+            <div class="group-percentage"></div>
         </div>
         
         <div class="activity activity-g">
@@ -263,7 +350,8 @@
             <div class="resources">
                 <p><strong>Recursos:</strong> Lenguajes de programación (Python, Java), bibliotecas matemáticas, herramientas de simulación, documentación sobre teoría de colas.</p>
             </div>
-            <div class="price-tag">Costo estimado: $75 - $90</div>
+            <div class="price-tag">Costo estimado: $90</div>
+            <div class="percentage-tag activity-percentage"></div>
         </div>
         
         <div class="activity activity-g">
@@ -272,7 +360,8 @@
             <div class="resources">
                 <p><strong>Recursos:</strong> Frameworks de desarrollo, APIs de comunicación, herramientas de generación de códigos QR, sistemas de notificación.</p>
             </div>
-            <div class="price-tag">Costo estimado: $80 - $100</div>
+            <div class="price-tag">Costo estimado: $100</div>
+            <div class="percentage-tag activity-percentage"></div>
         </div>
         
         <div class="activity activity-g">
@@ -281,7 +370,14 @@
             <div class="resources">
                 <p><strong>Recursos:</strong> Herramientas de análisis de datos, frameworks para reglas de negocio, simuladores de eventos discretos, reuniones con stakeholders para definir prioridades.</p>
             </div>
-            <div class="price-tag">Costo estimado: $68 - $85</div>
+            <div class="price-tag">Costo estimado: $85</div>
+            <div class="percentage-tag activity-percentage"></div>
+        </div>
+        
+        <!-- Grupo de actividades H -->
+        <div class="activity-group-header" id="group-h">
+            <h3>Desarrollar sistema para operadores (H.1 - H.2)</h3>
+            <div class="group-percentage"></div>
         </div>
         
         <div class="activity activity-h">
@@ -290,7 +386,8 @@
             <div class="resources">
                 <p><strong>Recursos:</strong> Frameworks frontend (React, Angular, Vue), bibliotecas de visualización (D3.js, Chart.js), herramientas de diseño UI, APIs para exportación de datos.</p>
             </div>
-            <div class="price-tag">Costo estimado: $12 - $15</div>
+            <div class="price-tag">Costo estimado: $15</div>
+            <div class="percentage-tag activity-percentage"></div>
         </div>
         
         <div class="activity activity-h">
@@ -299,7 +396,14 @@
             <div class="resources">
                 <p><strong>Recursos:</strong> Frameworks de autenticación, sistemas de gestión de identidad, bibliotecas de encriptación, APIs de calendario y agenda.</p>
             </div>
-            <div class="price-tag">Costo estimado: $85 - $100</div>
+            <div class="price-tag">Costo estimado: $100</div>
+            <div class="percentage-tag activity-percentage"></div>
+        </div>
+        
+        <!-- Grupo de actividades I -->
+        <div class="activity-group-header" id="group-i">
+            <h3> Integrar sistema de notificaciones en tiempo real (I.1 - I.2)</h3>
+            <div class="group-percentage"></div>
         </div>
         
         <div class="activity activity-i">
@@ -308,7 +412,8 @@
             <div class="resources">
                 <p><strong>Recursos:</strong> Servicios de notificaciones push (Firebase Cloud Messaging, OneSignal), WebSockets, servicios de mensajería en tiempo real, herramientas de seguimiento de eventos.</p>
             </div>
-            <div class="price-tag">Costo estimado: $70 - $90</div>
+            <div class="price-tag">Costo estimado: $90</div>
+            <div class="percentage-tag activity-percentage"></div>
         </div>
         
         <div class="activity activity-i">
@@ -317,7 +422,14 @@
             <div class="resources">
                 <p><strong>Recursos:</strong> Servicios de envío de SMS (Twilio, Nexmo), proveedores de email transaccional (SendGrid, Mailgun), herramientas de templating, sistemas de colas para mensajes.</p>
             </div>
-            <div class="price-tag">Costo estimado: $55 - $70</div>
+            <div class="price-tag">Costo estimado: $70</div>
+            <div class="percentage-tag activity-percentage"></div>
+        </div>
+        
+        <!-- Grupo de actividades J -->
+        <div class="activity-group-header" id="group-j">
+            <h3>Desarrollar interfaz de usuario web y móvil (J.1 - J.2)</h3>
+            <div class="group-percentage"></div>
         </div>
         
         <div class="activity activity-j">
@@ -326,7 +438,8 @@
             <div class="resources">
                 <p><strong>Recursos:</strong> Frameworks JavaScript (React, Angular, Vue), preprocesadores CSS, herramientas de bundling, bibliotecas de componentes UI, herramientas de testing frontend.</p>
             </div>
-            <div class="price-tag">Costo estimado: $18 - $22</div>
+            <div class="price-tag">Costo estimado: $22</div>
+            <div class="percentage-tag activity-percentage"></div>
         </div>
         
         <div class="activity activity-j">
@@ -335,7 +448,14 @@
             <div class="resources">
                 <p><strong>Recursos:</strong> Frameworks de desarrollo móvil (React Native, Flutter, Swift, Kotlin), herramientas de diseño UI móvil, APIs nativas, entornos de desarrollo móvil.</p>
             </div>
-            <div class="price-tag">Costo estimado: $25 - $32</div>
+            <div class="price-tag">Costo estimado: $32</div>
+            <div class="percentage-tag activity-percentage"></div>
+        </div>
+        
+        <!-- Grupo de actividades K -->
+        <div class="activity-group-header" id="group-k">
+            <h3>Conectar frontend con backend mediante API (K.1 - K.2)</h3>
+            <div class="group-percentage"></div>
         </div>
         
         <div class="activity activity-k">
@@ -344,7 +464,8 @@
             <div class="resources">
                 <p><strong>Recursos:</strong> Frameworks backend (Express, Django, Spring), herramientas de documentación API (Swagger, ReDoc), validadores de esquemas, metodologías de diseño API.</p>
             </div>
-            <div class="price-tag">Costo estimado: $14 - $18</div>
+            <div class="price-tag">Costo estimado: $18</div>
+            <div class="percentage-tag activity-percentage"></div>
         </div>
         
         <div class="activity activity-k">
@@ -353,117 +474,128 @@
             <div class="resources">
                 <p><strong>Recursos:</strong> Herramientas de testing API (Postman, Insomnia), frameworks de testing (Jest, Mocha, PyTest), herramientas de mock, entornos de integración continua.</p>
             </div>
-            <div class="price-tag">Costo estimado: $8 - $10</div>
+            <div class="price-tag">Costo estimado: $10</div>
+            <div class="percentage-tag activity-percentage"></div>
         </div>
         
-        <div class="activity activity-l">
-            <h3>L.1 Pruebas unitarias</h3>
-            <p><strong>Cómo se hace:</strong> Desarrollar tests para funciones y componentes individuales. Implementar mocks y stubs para aislar dependencias. Medir cobertura de código. Automatizar ejecución en pipeline de CI/CD. Resolver problemas identificados.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Frameworks de testing unitario (Jest, JUnit, PyTest), herramientas de cobertura de código, bibliotecas de mocking, plataformas CI/CD.</p>
-            </div>
-            <div class="price-tag">Costo estimado: $7 - $9</div>
-        </div>
-        
-        <div class="activity activity-l">
-            <h3>L.2 Pruebas de integración</h3>
-            <p><strong>Cómo se hace:</strong> Verificar interacción correcta entre componentes y sistemas. Implementar pruebas end-to-end de flujos principales. Configurar entornos de testing que emulen producción. Automatizar escenarios complejos con múltiples actores.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Herramientas de testing e2e (Cypress, Selenium), entornos de integración, bases de datos de prueba, servicios de CI/CD.</p>
-            </div>
-            <div class="price-tag">Costo estimado: $9 - $12</div>
-        </div>
-        
-        <div class="activity activity-l">
-            <h3>L.3 Pruebas de aceptación</h3>
-            <p><strong>Cómo se hace:</strong> Organizar sesiones con usuarios reales o representantes. Documentar criterios de aceptación para cada historia de usuario. Verificar cumplimiento de requisitos desde perspectiva del usuario final. Recopilar y priorizar feedback.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Herramientas de gestión de pruebas, checklist de validación, usuarios beta, formularios de feedback, herramientas de grabación de sesiones.</p>
-            </div>
-            <div class="price-tag">Costo estimado: $65 - $80</div>
-        </div>
-        
-        <div class="activity activity-m">
-            <h3>M.1 Auditoría de seguridad</h3>
-            <p><strong>Cómo se hace:</strong> Realizar análisis de vulnerabilidades en código y configuraciones. Implementar pruebas de penetración. Verificar protección contra ataques comunes (XSS, CSRF, inyección SQL). Revisar prácticas de autenticación y autorización. Documentar y resolver problemas encontrados.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Herramientas de análisis estático de código, scanners de vulnerabilidades, frameworks de pentest, guías de seguridad (OWASP), consultores de seguridad.</p>
-            </div>
-            <div class="price-tag">Costo estimado: $12 - $15</div>
-        </div>
-        
-        <div class="activity activity-m">
-            <h3>M.2 Optimización de rendimiento</h3>
-            <p><strong>Cómo se hace:</strong> Identificar cuellos de botella con herramientas de profiling. Optimizar consultas de base de datos y algoritmos críticos. Implementar técnicas de caché. Realizar pruebas de carga y estrés. Configurar escalado horizontal/vertical según necesidades.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Herramientas de profiling y monitoreo, software de pruebas de carga (JMeter, Locust), servicios de caché, herramientas de análisis de rendimiento de bases de datos.</p>
-            </div>
-            <div class="price-tag">Costo estimado: $10 - $13</div>
-        </div>
-        
-        <div class="activity activity-n">
-            <h3>N.1 Configuración de servidores</h3>
-            <p><strong>Cómo se hace:</strong> Preparar infraestructura de producción según especificaciones. Configurar balanceadores de carga, firewalls y sistemas de respaldo. Implementar monitoreo y alertas. Documentar topología y procedimientos operativos.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Servicios cloud (AWS, Azure, GCP), herramientas de IaC, sistemas de orquestación (Kubernetes, Docker Swarm), herramientas de monitoreo (Prometheus, Grafana).</p>
-            </div>
-            <div class="price-tag">Costo estimado: $9 - $12</div>
-        </div>
-        
-        <div class="activity activity-n">
-            <h3>N.2 Despliegue en producción</h3>
-            <p><strong>Cómo se hace:</strong> Implementar estrategia de despliegue (blue-green, canary). Migrar datos necesarios. Configurar dominios y certificados. Realizar validaciones post-despliegue. Preparar plan de contingencia para rollback si es necesario.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Herramientas de CI/CD, sistemas de gestión de configuración, servicios DNS, proveedores de certificados SSL, checklists de despliegue.</p>
-            </div>
-            <div class="price-tag">Costo estimado: $9 - $12</div>
-        </div>
-        
-        <div class="activity activity-o">
-            <h3>O.1 Preparación de materiales</h3>
-            <p><strong>Cómo se hace:</strong> Desarrollar manuales de usuario, guías rápidas y videos tutoriales. Crear documentación técnica para administradores. Preparar presentaciones para diferentes audiencias. Traducir materiales según necesidades regionales.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Herramientas de documentación, software de edición de video, plataformas e-learning, servicios de traducción, plantillas corporativas.</p>
-            </div>
-             <div class="price-tag">Costo estimado: $4 - $7</div>
-        </div>
-        
-        <div class="activity activity-o">
-            <h3>O.2 Sesiones de capacitación</h3>
-            <p><strong>Cómo se hace:</strong> Organizar entrenamientos presenciales o virtuales. Preparar ejercicios prácticos y casos de uso reales. Recopilar preguntas frecuentes. Evaluar comprensión mediante pruebas. Proporcionar soporte post-capacitación.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Plataformas de videoconferencia, entornos de prueba, materiales impresos, formularios de evaluación, equipo de formadores.</p>
-            </div>
-            <div class="price-tag">Costo estimado: $50 - $80</div>
-        </div>
-        
-        <div class="activity activity-p">
-            <h3>P.1 Configuración de monitoreo</h3>
-            <p><strong>Cómo se hace:</strong> Implementar sistemas de observabilidad (logs, métricas, trazas). Configurar dashboards operativos. Establecer umbrales para alertas. Crear procedimientos de respuesta a incidentes. Programar revisiones periódicas de rendimiento.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Herramientas de monitoreo (Prometheus, Grafana, ELK Stack), servicios de alerta, sistemas de tickets, documentación de procedimientos operativos.</p>
-            </div>
-            <div class="price-tag">Costo estimado: $30 - $50</div>
-        </div>
-        
-        <div class="activity activity-p">
-            <h3>P.2 Recolección de feedback</h3>
-            <p><strong>Cómo se hace:</strong> Implementar mecanismos de retroalimentación dentro de la aplicación. Realizar encuestas de satisfacción periódicas. Organizar grupos focales con usuarios clave. Analizar métricas de uso. Priorizar sugerencias según impacto y esfuerzo.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Herramientas de encuestas, software de análisis cualitativo, plataformas de gestión de feedback, herramientas de analítica.</p>
-            </div>
-            <div class="price-tag">Costo estimado: $40 - $70</div>
-        </div>
-        
-        <div class="activity activity-p">
-            <h3>P.3 Implementación de mejoras</h3>
-            <p><strong>Cómo se hace:</strong> Planificar ciclos de mejora continua basados en feedback y datos de uso. Priorizar cambios según impacto y recursos disponibles. Implementar, probar y desplegar actualizaciones. Comunicar nuevas funcionalidades a usuarios.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Herramientas de gestión de proyectos ágiles, sistemas de control de versiones, entornos de desarrollo/prueba, canales de comunicación con usuarios.</p>
-            </div>
-            <div class="price-tag">Costo estimado: $60 - $100</div>
-        </div>
+<button id="toggle-actividades-l-p" class="btn btn-primary mb-4">
+    Mostrar actividades L-P
+</button>
+
+
+
+        <!-- Punto de control -->
+        <div class="checkpoint">
+            <h3>Resto de activididades</h3>
+<div class="activity activity-l">
+    <h3>L.1 Pruebas unitarias</h3>
+
+
+    <p><strong>Cómo se hace:</strong> Desarrollar tests para funciones y componentes individuales. Implementar mocks y stubs para aislar dependencias. Medir cobertura de código. Automatizar ejecución en pipeline de CI/CD. Resolver problemas identificados.</p>
+    <div class="resources">
+        <p><strong>Recursos:</strong> Frameworks de testing unitario (Jest, JUnit, PyTest), herramientas de cobertura de código, bibliotecas de mocking, plataformas CI/CD.</p>
     </div>
+    <div class="price-tag">Costo estimado: $9</div>
+</div>
+
+<div class="activity activity-l">
+    <h3>L.2 Pruebas de integración</h3>
+    <p><strong>Cómo se hace:</strong> Verificar interacción correcta entre componentes y sistemas. Implementar pruebas end-to-end de flujos principales. Configurar entornos de testing que emulen producción. Automatizar escenarios complejos con múltiples actores.</p>
+    <div class="resources">
+        <p><strong>Recursos:</strong> Herramientas de testing e2e (Cypress, Selenium), entornos de integración, bases de datos de prueba, servicios de CI/CD.</p>
+    </div>
+    <div class="price-tag">Costo estimado: $12</div>
+</div>
+
+<div class="activity activity-l">
+    <h3>L.3 Pruebas de aceptación</h3>
+    <p><strong>Cómo se hace:</strong> Organizar sesiones con usuarios reales o representantes. Documentar criterios de aceptación para cada historia de usuario. Verificar cumplimiento de requisitos desde perspectiva del usuario final. Recopilar y priorizar feedback.</p>
+    <div class="resources">
+        <p><strong>Recursos:</strong> Herramientas de gestión de pruebas, checklist de validación, usuarios beta, formularios de feedback, herramientas de grabación de sesiones.</p>
+    </div>
+    <div class="price-tag">Costo estimado: $80</div>
+</div>
+
+<div class="activity activity-m">
+    <h3>M.1 Auditoría de seguridad</h3>
+    <p><strong>Cómo se hace:</strong> Realizar análisis de vulnerabilidades en código y configuraciones. Implementar pruebas de penetración. Verificar protección contra ataques comunes (XSS, CSRF, inyección SQL). Revisar prácticas de autenticación y autorización. Documentar y resolver problemas encontrados.</p>
+    <div class="resources">
+        <p><strong>Recursos:</strong> Herramientas de análisis estático de código, scanners de vulnerabilidades, frameworks de pentest, guías de seguridad (OWASP), consultores de seguridad.</p>
+    </div>
+    <div class="price-tag">Costo estimado: $15</div>
+</div>
+
+<div class="activity activity-m">
+    <h3>M.2 Optimización de rendimiento</h3>
+    <p><strong>Cómo se hace:</strong> Identificar cuellos de botella con herramientas de profiling. Optimizar consultas de base de datos y algoritmos críticos. Implementar técnicas de caché. Realizar pruebas de carga y estrés. Configurar escalado horizontal/vertical según necesidades.</p>
+    <div class="resources">
+        <p><strong>Recursos:</strong> Herramientas de profiling y monitoreo, software de pruebas de carga (JMeter, Locust), servicios de caché, herramientas de análisis de rendimiento de bases de datos.</p>
+    </div>
+    <div class="price-tag">Costo estimado: $13</div>
+</div>
+
+<div class="activity activity-n">
+    <h3>N.1 Configuración de servidores</h3>
+    <p><strong>Cómo se hace:</strong> Preparar infraestructura de producción según especificaciones. Configurar balanceadores de carga, firewalls y sistemas de respaldo. Implementar monitoreo y alertas. Documentar topología y procedimientos operativos.</p>
+    <div class="resources">
+        <p><strong>Recursos:</strong> Servicios cloud (AWS, Azure, GCP), herramientas de IaC, sistemas de orquestación (Kubernetes, Docker Swarm), herramientas de monitoreo (Prometheus, Grafana).</p>
+    </div>
+    <div class="price-tag">Costo estimado: $12</div>
+</div>
+
+<div class="activity activity-n">
+    <h3>N.2 Despliegue en producción</h3>
+    <p><strong>Cómo se hace:</strong> Implementar estrategia de despliegue (blue-green, canary). Migrar datos necesarios. Configurar dominios y certificados. Realizar validaciones post-despliegue. Preparar plan de contingencia para rollback si es necesario.</p>
+    <div class="resources">
+        <p><strong>Recursos:</strong> Herramientas de CI/CD, sistemas de gestión de configuración, servicios DNS, proveedores de certificados SSL, checklists de despliegue.</p>
+    </div>
+    <div class="price-tag">Costo estimado: $12</div>
+</div>
+
+<div class="activity activity-o">
+    <h3>O.1 Preparación de materiales</h3>
+    <p><strong>Cómo se hace:</strong> Desarrollar manuales de usuario, guías rápidas y videos tutoriales. Crear documentación técnica para administradores. Preparar presentaciones para diferentes audiencias. Traducir materiales según necesidades regionales.</p>
+    <div class="resources">
+        <p><strong>Recursos:</strong> Herramientas de documentación, software de edición de video, plataformas e-learning, servicios de traducción, plantillas corporativas.</p>
+    </div>
+     <div class="price-tag">Costo estimado: $7</div>
+</div>
+
+<div class="activity activity-o">
+    <h3>O.2 Sesiones de capacitación</h3>
+    <p><strong>Cómo se hace:</strong> Organizar entrenamientos presenciales o virtuales. Preparar ejercicios prácticos y casos de uso reales. Recopilar preguntas frecuentes. Evaluar comprensión mediante pruebas. Proporcionar soporte post-capacitación.</p>
+    <div class="resources">
+        <p><strong>Recursos:</strong> Plataformas de videoconferencia, entornos de prueba, materiales impresos, formularios de evaluación, equipo de formadores.</p>
+    </div>
+    <div class="price-tag">Costo estimado: $80</div>
+</div>
+
+<div class="activity activity-p">
+    <h3>P.1 Configuración de monitoreo</h3>
+    <p><strong>Cómo se hace:</strong> Implementar sistemas de observabilidad (logs, métricas, trazas). Configurar dashboards operativos. Establecer umbrales para alertas. Crear procedimientos de respuesta a incidentes. Programar revisiones periódicas de rendimiento.</p>
+    <div class="resources">
+        <p><strong>Recursos:</strong> Herramientas de monitoreo (Prometheus, Grafana, ELK Stack), servicios de alerta, sistemas de tickets, documentación de procedimientos operativos.</p>
+    </div>
+    <div class="price-tag">Costo estimado: $50</div>
+</div>
+
+<div class="activity activity-p">
+    <h3>P.2 Recolección de feedback</h3>
+    <p><strong>Cómo se hace:</strong> Implementar mecanismos de retroalimentación dentro de la aplicación. Realizar encuestas de satisfacción periódicas. Organizar grupos focales con usuarios clave. Analizar métricas de uso. Priorizar sugerencias según impacto y esfuerzo.</p>
+    <div class="resources">
+        <p><strong>Recursos:</strong> Herramientas de encuestas, software de análisis cualitativo, plataformas de gestión de feedback, herramientas de analítica.</p>
+    </div>
+    <div class="price-tag">Costo estimado: $70</div>
+</div>
+
+<div class="activity activity-p">
+    <h3>P.3 Implementación de mejoras</h3>
+    <p><strong>Cómo se hace:</strong> Planificar ciclos de mejora continua basados en feedback y datos de uso. Priorizar cambios según impacto y recursos disponibles. Implementar, probar y desplegar actualizaciones. Comunicar nuevas funcionalidades a usuarios.</p>
+    <div class="resources">
+        <p><strong>Recursos:</strong> Herramientas de gestión de proyectos ágiles, sistemas de control de versiones, entornos de desarrollo/prueba, canales de comunicación con usuarios.</p>
+    </div>
+    <div class="price-tag">Costo estimado: $100</div>
+</div>
 
     <!-- Bootstrap JS y dependencias -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -471,54 +603,152 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/js/bootstrap.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    const tasaCambio = 4000; // Tasa de cambio USD a COP
+
     const priceTags = document.querySelectorAll('.price-tag');
-    let totalMin = 0;
-    let totalMax = 0;
-    const tasaCambio = 4000; // Puedes ajustar la tasa aquí
+    const activities = [];
+    let total = 0;
 
-    priceTags.forEach(function(tag) {
-        const priceText = tag.textContent;
-        const priceMatch = priceText.match(/\$([0-9,]+)\s*-\s*\$([0-9,]+)/);
+    const grupos = {}; // Guardará sumas por grupo A, B, C, D, etc.
 
-        if (priceMatch) {
-            const minPrice = parseInt(priceMatch[1].replace(/,/g, ''));
-            const maxPrice = parseInt(priceMatch[2].replace(/,/g, ''));
+    let dentroPuntoControl = true;
 
-            totalMin += minPrice;
-            totalMax += maxPrice;
+    priceTags.forEach(tag => {
+        const activityDiv = tag.closest('.activity');
+        const activityName = activityDiv.querySelector('h3').textContent.trim();
+        const groupLetter = activityName.charAt(0).toUpperCase();
 
-            // Calcular equivalentes en COP para cada etiqueta individual
-            const minCOP = minPrice * tasaCambio;
-            const maxCOP = maxPrice * tasaCambio;
+        // Detectar si pasamos el checkpoint de 3.4 meses (después de actividad K)
+        if (groupLetter > 'K') dentroPuntoControl = false;
 
-            // Agregar COP debajo del precio original
-            const copElement = document.createElement('div');
-            copElement.innerHTML = `<small class="text-muted">COP: $${minCOP.toLocaleString()} - $${maxCOP.toLocaleString()}</small>`;
-            tag.appendChild(copElement);
+        let precioTexto = tag.textContent.match(/\$([\d,]+)/);
+        if (precioTexto) {
+            let precio = parseInt(precioTexto[1].replace(/,/g, ''), 10);
+            activities.push({
+                group: groupLetter,
+                price: precio,
+                tag: tag,
+                activityDiv: activityDiv,
+                activityName: activityName,
+                dentroPuntoControl: dentroPuntoControl
+            });
+
+            // Sumar al total solo si está dentro del Punto de Control (A-K)
+            if (dentroPuntoControl) {
+                total += precio;
+                grupos[groupLetter] = (grupos[groupLetter] || 0) + precio;
+            }
         }
     });
 
-    const totalMinCOP = totalMin * tasaCambio;
-    const totalMaxCOP = totalMax * tasaCambio;
+    // Mostrar porcentaje por grupo
+    for (const [grupo, costoGrupo] of Object.entries(grupos)) {
+        const porcentajeGrupo = (costoGrupo / total) * 100;
 
-    // Crear el elemento para mostrar el total
-    const totalElement = document.createElement('div');
-    totalElement.classList.add('container', 'mt-4', 'mb-5');
-    totalElement.innerHTML = `
-        <div class="card bg-light">
-            <div class="card-body text-center">
-                <h3 class="card-title text-primary">Costo Total Estimado del Proyecto</h3>
-                <div class="h4 mt-3 font-weight-bold text-success">
-                    USD: $${totalMin.toLocaleString()} - $${totalMax.toLocaleString()}
-                </div>
-                <div class="h5 mt-2 text-muted">
-                    COP: $${totalMinCOP.toLocaleString()} - $${totalMaxCOP.toLocaleString()}
-                </div>
+        const groupHeader = document.querySelector(`#group-${grupo.toLowerCase()} .group-percentage`);
+        if (groupHeader) {
+            groupHeader.innerHTML = `
+                <div class="percentage-tag">
+                    ${porcentajeGrupo.toFixed(2)}% del Costo Total del Proyecto
+                </div>`;
+        }
+    }
+
+    // Mostrar porcentaje por actividad respecto a su grupo
+    activities.forEach(activity => {
+        if (grupos[activity.group] && activity.dentroPuntoControl) {
+            const porcentajeActividad = (activity.price / grupos[activity.group]) * 100;
+
+            const porcentajeDiv = activity.activityDiv.querySelector('.activity-percentage');
+            if (porcentajeDiv) {
+                porcentajeDiv.innerHTML = `${porcentajeActividad.toFixed(2)}% del Grupo ${activity.group}`;
+            }
+        }
+    });
+
+    const totalCOP = total * tasaCambio;
+
+    // Mostrar total del proyecto
+    const container = document.querySelector('.container.content');
+    const totalDiv = document.createElement('div');
+    totalDiv.classList.add('card', 'bg-light', 'mt-5', 'mb-5');
+    totalDiv.innerHTML = `
+        <div class="card-body text-center">
+            <h3 class="card-title text-primary">Costo Total Estimado del Proyecto (Primeros 3.4 meses)</h3>
+            <div class="h4 mt-3 font-weight-bold text-success">
+                USD: $${total.toLocaleString()}
+            </div>
+            <div class="h5 mt-2 text-muted">
+                COP: $${totalCOP.toLocaleString()}
             </div>
         </div>
     `;
-    document.querySelector('.container.content').appendChild(totalElement);
+    container.appendChild(totalDiv);
 });
 </script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tasaCambio = 4000; // USD -> COP
+
+    const botonToggle = document.getElementById('toggle-actividades-l-p');
+    const actividades = document.querySelectorAll('.activity');
+
+    // Función para ocultar inicialmente actividades L-P
+    actividades.forEach(activity => {
+        const nombreActividad = activity.querySelector('h3').textContent.trim();
+        const letraGrupo = nombreActividad.charAt(0).toUpperCase();
+
+        if (letraGrupo >= 'L' && letraGrupo <= 'P') {
+            activity.classList.add('d-none'); // Ocultarlas al cargar
+        }
+    });
+
+    // Toggle dinámico de mostrar/ocultar L-P
+    botonToggle.addEventListener('click', function() {
+        let visibles = false;
+        
+        actividades.forEach(activity => {
+            const nombreActividad = activity.querySelector('h3').textContent.trim();
+            const letraGrupo = nombreActividad.charAt(0).toUpperCase();
+
+            if (letraGrupo >= 'L' && letraGrupo <= 'P') {
+                activity.classList.toggle('d-none');
+                visibles = !activity.classList.contains('d-none');
+            }
+        });
+
+        // Cambiar texto del botón dinámicamente
+        if (visibles) {
+            botonToggle.textContent = 'Ocultar actividades L-P';
+        } else {
+            botonToggle.textContent = 'Mostrar actividades L-P';
+        }
+    });
+
+    // --- Ahora, función para mostrar el equivalente en COP ---
+    const priceTags = document.querySelectorAll('.price-tag');
+
+    priceTags.forEach(tag => {
+        const precioTexto = tag.textContent.match(/\$([\d,]+)/);
+        if (precioTexto) {
+            let precioUSD = parseInt(precioTexto[1].replace(/,/g, ''), 10);
+            let precioCOP = precioUSD * tasaCambio;
+
+            // Crear un pequeño span para mostrar el COP
+            const copTag = document.createElement('span');
+            copTag.classList.add('text-muted', 'ml-2');
+            copTag.style.fontSize = '0.9em';
+            copTag.innerHTML = `($${precioCOP.toLocaleString('es-CO')} COP)`;
+
+            tag.appendChild(copTag);
+        }
+    });
+});
+</script>
+
+
+
 </body>
 </html>
