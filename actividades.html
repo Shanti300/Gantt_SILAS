@@ -603,109 +603,28 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/js/bootstrap.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const tasaCambio = 4000; // Tasa de cambio USD a COP
-
-    const priceTags = document.querySelectorAll('.price-tag');
-    const activities = [];
-    let total = 0;
-
-    const grupos = {}; // Guardará sumas por grupo A, B, C, D, etc.
-
-    let dentroPuntoControl = true;
-
-    priceTags.forEach(tag => {
-        const activityDiv = tag.closest('.activity');
-        const activityName = activityDiv.querySelector('h3').textContent.trim();
-        const groupLetter = activityName.charAt(0).toUpperCase();
-
-        // Detectar si pasamos el checkpoint de 3.4 meses (después de actividad K)
-        if (groupLetter > 'K') dentroPuntoControl = false;
-
-        let precioTexto = tag.textContent.match(/\$([\d,]+)/);
-        if (precioTexto) {
-            let precio = parseInt(precioTexto[1].replace(/,/g, ''), 10);
-            activities.push({
-                group: groupLetter,
-                price: precio,
-                tag: tag,
-                activityDiv: activityDiv,
-                activityName: activityName,
-                dentroPuntoControl: dentroPuntoControl
-            });
-
-            // Sumar al total solo si está dentro del Punto de Control (A-K)
-            if (dentroPuntoControl) {
-                total += precio;
-                grupos[groupLetter] = (grupos[groupLetter] || 0) + precio;
-            }
-        }
-    });
-
-    // Mostrar porcentaje por grupo
-    for (const [grupo, costoGrupo] of Object.entries(grupos)) {
-        const porcentajeGrupo = (costoGrupo / total) * 100;
-
-        const groupHeader = document.querySelector(`#group-${grupo.toLowerCase()} .group-percentage`);
-        if (groupHeader) {
-            groupHeader.innerHTML = `
-                <div class="percentage-tag">
-                    ${porcentajeGrupo.toFixed(2)}% del Costo Total del Proyecto
-                </div>`;
-        }
-    }
-
-    // Mostrar porcentaje por actividad respecto a su grupo
-    activities.forEach(activity => {
-        if (grupos[activity.group] && activity.dentroPuntoControl) {
-            const porcentajeActividad = (activity.price / grupos[activity.group]) * 100;
-
-            const porcentajeDiv = activity.activityDiv.querySelector('.activity-percentage');
-            if (porcentajeDiv) {
-                porcentajeDiv.innerHTML = `${porcentajeActividad.toFixed(2)}% del Grupo ${activity.group}`;
-            }
-        }
-    });
-
-    const totalCOP = total * tasaCambio;
-
-    // Mostrar total del proyecto
-    const container = document.querySelector('.container.content');
-    const totalDiv = document.createElement('div');
-    totalDiv.classList.add('card', 'bg-light', 'mt-5', 'mb-5');
-    totalDiv.innerHTML = `
-        <div class="card-body text-center">
-            <h3 class="card-title text-primary">Costo Total Estimado del Proyecto (Primeros 3.4 meses)</h3>
-            <div class="h4 mt-3 font-weight-bold text-success">
-                USD: $${total.toLocaleString()}
-            </div>
-            <div class="h5 mt-2 text-muted">
-                COP: $${totalCOP.toLocaleString()}
-            </div>
-        </div>
-    `;
-    container.appendChild(totalDiv);
-});
-</script>
-
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
     const tasaCambio = 4000; // USD -> COP
 
     const botonToggle = document.getElementById('toggle-actividades-l-p');
     const actividades = document.querySelectorAll('.activity');
+    const priceTags = document.querySelectorAll('.price-tag');
+    const grupos = {}; // Guardar sumas por grupo (A, B, C, etc.)
+    const activities = [];
 
-    // Función para ocultar inicialmente actividades L-P
+    let total = 0;
+    let dentroPuntoControl = true;
+
+    // --- Inicializar: Ocultar actividades L-P al cargar ---
     actividades.forEach(activity => {
         const nombreActividad = activity.querySelector('h3').textContent.trim();
         const letraGrupo = nombreActividad.charAt(0).toUpperCase();
 
         if (letraGrupo >= 'L' && letraGrupo <= 'P') {
-            activity.classList.add('d-none'); // Ocultarlas al cargar
+            activity.classList.add('d-none'); // Ocultar al cargar
         }
     });
 
-    // Toggle dinámico de mostrar/ocultar L-P
+    // --- Botón Mostrar/Ocultar dinámico ---
     botonToggle.addEventListener('click', function() {
         let visibles = false;
         
@@ -719,36 +638,99 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Cambiar texto del botón dinámicamente
-        if (visibles) {
-            botonToggle.textContent = 'Ocultar actividades L-P';
-        } else {
-            botonToggle.textContent = 'Mostrar actividades L-P';
-        }
+        botonToggle.textContent = visibles ? 'Ocultar actividades L-P' : 'Mostrar actividades L-P';
     });
 
-    // --- Ahora, función para mostrar el equivalente en COP ---
-    const priceTags = document.querySelectorAll('.price-tag');
-
+    // --- Procesar actividades y calcular costos ---
     priceTags.forEach(tag => {
-        const precioTexto = tag.textContent.match(/\$([\d,]+)/);
+        const activityDiv = tag.closest('.activity');
+        const activityName = activityDiv.querySelector('h3').textContent.trim();
+        const groupLetter = activityName.charAt(0).toUpperCase();
+
+        if (groupLetter > 'K') dentroPuntoControl = false;
+
+        let precioTexto = tag.textContent.match(/\$([\d,]+)/);
         if (precioTexto) {
             let precioUSD = parseInt(precioTexto[1].replace(/,/g, ''), 10);
             let precioCOP = precioUSD * tasaCambio;
 
-            // Crear un pequeño span para mostrar el COP
+            // Mostrar al lado el precio en COP
             const copTag = document.createElement('span');
             copTag.classList.add('text-muted', 'ml-2');
             copTag.style.fontSize = '0.9em';
             copTag.innerHTML = `($${precioCOP.toLocaleString('es-CO')} COP)`;
-
             tag.appendChild(copTag);
+
+            activities.push({
+                group: groupLetter,
+                price: precioUSD,
+                tag: tag,
+                activityDiv: activityDiv,
+                activityName: activityName,
+                dentroPuntoControl: dentroPuntoControl
+            });
+
+            // Acumular costos por grupo dentro del punto de control
+            if (dentroPuntoControl) {
+                total += precioUSD;
+                grupos[groupLetter] = (grupos[groupLetter] || 0) + precioUSD;
+            }
         }
     });
+
+    // --- Mostrar % y costo total de cada grupo ---
+    for (const [grupo, costoGrupoUSD] of Object.entries(grupos)) {
+        const porcentajeGrupo = (costoGrupoUSD / total) * 100;
+        const costoGrupoCOP = costoGrupoUSD * tasaCambio;
+
+        const groupHeader = document.querySelector(`#group-${grupo.toLowerCase()} .group-percentage`);
+        if (groupHeader) {
+            groupHeader.innerHTML = `
+                <div class="percentage-tag mb-2">
+                    ${porcentajeGrupo.toFixed(2)}% del costo total
+                </div>
+                <div class="text-muted small">
+                    USD: $${costoGrupoUSD.toLocaleString('en-US')} <br>
+                    COP: $${costoGrupoCOP.toLocaleString('es-CO')}
+                </div>
+            `;
+        }
+    }
+
+    // --- Mostrar % por actividad respecto a su grupo ---
+    activities.forEach(activity => {
+        if (grupos[activity.group] && activity.dentroPuntoControl) {
+            const porcentajeActividad = (activity.price / grupos[activity.group]) * 100;
+
+            const porcentajeDiv = activity.activityDiv.querySelector('.activity-percentage');
+            if (porcentajeDiv) {
+                porcentajeDiv.innerHTML = `${porcentajeActividad.toFixed(2)}% del grupo ${activity.group}`;
+            }
+        }
+    });
+
+    // --- Mostrar total del proyecto ---
+    const totalCOP = total * tasaCambio;
+    const container = document.querySelector('.container.content');
+    const totalDiv = document.createElement('div');
+    totalDiv.classList.add('card', 'bg-light', 'mt-5', 'mb-5');
+    totalDiv.innerHTML = `
+        <div class="card-body text-center">
+            <h3 class="card-title text-primary">Costo Total Estimado del Proyecto (Primeros 3.4 meses)</h3>
+            <div class="h4 mt-3 font-weight-bold text-success">
+                USD: $${total.toLocaleString('en-US')}
+            </div>
+            <div class="h5 mt-2 text-muted">
+                COP: $${totalCOP.toLocaleString('es-CO')}
+            </div>
+            <div class="h6 mt-4 text-secondary">
+                Hecho por: Julian D. Navarro G.
+            </div>
+        </div>
+    `;
+    container.appendChild(totalDiv);
 });
 </script>
-
-
 
 </body>
 </html>
