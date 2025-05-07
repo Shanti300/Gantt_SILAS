@@ -643,9 +643,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/js/bootstrap.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const tasaCambio = 4000; // USD -> COP
-
-    const botonToggle = document.getElementById('toggle-actividades-l-p');
+    // Ya no necesitamos la tasa de cambio porque tenemos valores en COP directamente
     const actividades = document.querySelectorAll('.activity');
     const priceTags = document.querySelectorAll('.price-tag');
     const grupos = {}; // Guardar sumas por grupo (A, B, C, etc.)
@@ -665,21 +663,24 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // --- Botón Mostrar/Ocultar dinámico ---
-    botonToggle.addEventListener('click', function() {
-        let visibles = false;
-        
-        actividades.forEach(activity => {
-            const nombreActividad = activity.querySelector('h3').textContent.trim();
-            const letraGrupo = nombreActividad.charAt(0).toUpperCase();
+    const botonToggle = document.getElementById('toggle-actividades-l-p');
+    if (botonToggle) {
+        botonToggle.addEventListener('click', function() {
+            let visibles = false;
+            
+            actividades.forEach(activity => {
+                const nombreActividad = activity.querySelector('h3').textContent.trim();
+                const letraGrupo = nombreActividad.charAt(0).toUpperCase();
 
-            if (letraGrupo >= 'L' && letraGrupo <= 'P') {
-                activity.classList.toggle('d-none');
-                visibles = !activity.classList.contains('d-none');
-            }
+                if (letraGrupo >= 'L' && letraGrupo <= 'P') {
+                    activity.classList.toggle('d-none');
+                    visibles = !activity.classList.contains('d-none');
+                }
+            });
+
+            botonToggle.textContent = visibles ? 'Ocultar actividades L-P' : 'Mostrar actividades L-P';
         });
-
-        botonToggle.textContent = visibles ? 'Ocultar actividades L-P' : 'Mostrar actividades L-P';
-    });
+    }
 
     // --- Procesar actividades y calcular costos ---
     priceTags.forEach(tag => {
@@ -689,21 +690,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (groupLetter > 'K') dentroPuntoControl = false;
 
-        let precioTexto = tag.textContent.match(/\$([\d,]+)/);
+        // Obtener precio en COP
+        let precioTexto = tag.textContent.match(/\$([\d,]+(?:\.\d+)?) COP/);
+        if (!precioTexto) {
+            precioTexto = tag.textContent.match(/\$([\d,]+(?:\.\d+)?)/);
+        }
+        
         if (precioTexto) {
-            let precioUSD = parseInt(precioTexto[1].replace(/,/g, ''), 10);
-            let precioCOP = precioUSD * tasaCambio;
-
-            // Mostrar al lado el precio en COP
-            const copTag = document.createElement('span');
-            copTag.classList.add('text-muted', 'ml-2');
-            copTag.style.fontSize = '0.9em';
-            copTag.innerHTML = `($${precioCOP.toLocaleString('es-CO')} COP)`;
-            tag.appendChild(copTag);
+            let precioCOP = parseInt(precioTexto[1].replace(/,/g, ''), 10);
 
             activities.push({
                 group: groupLetter,
-                price: precioUSD,
+                price: precioCOP, 
                 tag: tag,
                 activityDiv: activityDiv,
                 activityName: activityName,
@@ -712,16 +710,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Acumular costos por grupo dentro del punto de control
             if (dentroPuntoControl) {
-                total += precioUSD;
-                grupos[groupLetter] = (grupos[groupLetter] || 0) + precioUSD;
+                total += precioCOP;
+                grupos[groupLetter] = (grupos[groupLetter] || 0) + precioCOP;
             }
         }
     });
 
     // --- Mostrar % y costo total de cada grupo ---
-    for (const [grupo, costoGrupoUSD] of Object.entries(grupos)) {
-        const porcentajeGrupo = (costoGrupoUSD / total) * 100;
-        const costoGrupoCOP = costoGrupoUSD * tasaCambio;
+    for (const [grupo, costoGrupo] of Object.entries(grupos)) {
+        const porcentajeGrupo = (costoGrupo / total) * 100;
 
         const groupHeader = document.querySelector(`#group-${grupo.toLowerCase()} .group-percentage`);
         if (groupHeader) {
@@ -730,8 +727,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     ${porcentajeGrupo.toFixed(2)}% del costo total
                 </div>
                 <div class="text-muted small">
-                    USD: $${costoGrupoUSD.toLocaleString('en-US')} <br>
-                    COP: $${costoGrupoCOP.toLocaleString('es-CO')}
+                    COP: $${costoGrupo.toLocaleString('es-CO')}
                 </div>
             `;
         }
@@ -741,16 +737,16 @@ document.addEventListener('DOMContentLoaded', function() {
     activities.forEach(activity => {
         if (grupos[activity.group] && activity.dentroPuntoControl) {
             const porcentajeActividad = (activity.price / grupos[activity.group]) * 100;
+            const porcentajeTotal = (activity.price / total) * 100;
 
             const porcentajeDiv = activity.activityDiv.querySelector('.activity-percentage');
             if (porcentajeDiv) {
-                porcentajeDiv.innerHTML = `${porcentajeActividad.toFixed(2)}% del grupo ${activity.group}`;
+                porcentajeDiv.innerHTML = `${porcentajeActividad.toFixed(2)}% del grupo ${activity.group} (${porcentajeTotal.toFixed(2)}% del total)`;
             }
         }
     });
 
     // --- Mostrar total del proyecto ---
-    const totalCOP = total * tasaCambio;
     const container = document.querySelector('.container.content');
     const totalDiv = document.createElement('div');
     totalDiv.classList.add('card', 'bg-light', 'mt-5', 'mb-5');
@@ -758,10 +754,13 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="card-body text-center">
             <h3 class="card-title text-primary">Costo Total Estimado del Proyecto (Primeros 3.4 meses)</h3>
             <div class="h4 mt-3 font-weight-bold text-success">
-                USD: $${total.toLocaleString('en-US')}
+                COP: $${total.toLocaleString('es-CO')}
             </div>
             <div class="h5 mt-2 text-muted">
-                COP: $${totalCOP.toLocaleString('es-CO')}
+                Costo del equipo de desarrollo: $40,800,000 COP
+            </div>
+            <div class="h4 mt-3 font-weight-bold text-danger">
+                Total con equipo: $${(total + 40800000).toLocaleString('es-CO')} COP
             </div>
         </div>
     `;
