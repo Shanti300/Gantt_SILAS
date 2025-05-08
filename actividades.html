@@ -1,847 +1,548 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
+<html lang="es"><head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subactividades del Proyecto</title>
-    <!-- Bootstrap CSS -->
+    <title>Diagrama de Gantt - Proyecto de Gestión de Turnos</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/css/bootstrap.min.css">
     <style>
-        body {
-            padding-top: 56px;
-            font-family: Arial, sans-serif;
-        }
-        .content {
-            margin-top: 30px;
-            padding: 20px;
-        }
-        h2 {
-            color: #34495e;
-            margin-bottom: 20px;
-        }
-        .activity {
-            margin-bottom: 30px;
-            padding: 15px;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-        }
-        .activity h3 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
-        .resources {
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px dashed #ddd;
-        }
-        .price-tag {
-            background-color: #e7f4e4;
-            padding: 8px 12px;
-            border-radius: 4px;
-            display: inline-block;
-            font-weight: bold;
-            color: #2c5e2e;
-            margin-top: 10px;
-            border-left: 3px solid #2c5e2e;
+        :root {
+            --critical-color: #e74c3c;
+            --non-critical-color: #3498db;
+            --bg-color: #f9f9f9;
+            --border-color: #ddd;
+            --header-bg: #34495e;
+            --header-color: white;
         }
         
-        .percentage-tag {
-            background-color: #e4eaf4;
-            padding: 6px 10px;
-            border-radius: 4px;
-            display: inline-block;
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--bg-color);
+        }
+        
+        .container {
+    max-width: 100%; /* Cambia de 1400px a 100% */
+    margin: 0 auto;
+    overflow-x: auto; /* Asegura el scroll horizontal */
+    padding: 0 15px; /* Añade padding para espaciado interno */
+}
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            margin-top: 70px; /* Para que no se oculte debajo del navbar */
+        }
+        
+        .gantt-chart {
+    position: relative;
+    margin-top: 50px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    overflow: hidden;
+    background: white;
+    min-width: 1450px; /* Establece un ancho mínimo para que sea scrollable */
+}
+        
+        .time-axis {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--header-bg);
+            color: var(--header-color);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .axis-unit {
+            min-width: 50px;
+            text-align: center;
+            padding: 10px 5px;
             font-weight: bold;
-            color: #2e4a5e;
-            margin-top: 10px;
-            margin-left: 10px;
-            border-left: 3px solid #2e4a5e;
+            border-right: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .axis-unit:first-child {
+            min-width: 280px;
+            text-align: left;
+            padding-left: 15px;
+        }
+        
+        .gantt-row {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            height: 60px;
+        }
+        
+        .gantt-row:nth-child(even) {
+            background-color: rgba(0,0,0,0.02);
+        }
+        
+        .gantt-row.main-task {
+            background-color: rgba(0,0,0,0.05);
+            font-weight: bold;
+        }
+        
+        .task-label {
+            min-width: 280px;
+            padding: 8px 10px;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+        }
+        
+        .task-label.subtask {
+            padding-left: 30px;
+            font-style: italic;
+        }
+        
+        .time-unit {
+            min-width: 50px;
+            border-right: 1px dotted var(--border-color);
+        }
+        
+        .bar {
+            position: absolute;
+            height: 60%;
+            top: 20%;
+            z-index: 1;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .critical {
+            border: 2px solid rgba(0,0,0,0.2);
+        }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin: 0 10px;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 3px;
+            border: 1px solid rgba(0,0,0,0.2);
+        }
+        
+        .critical-badge {
+            background-color: var(--critical-color);
+            color: white;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 10px;
+            margin-left: 5px;
+        }
+        
+        .task-info {
+            margin-left: auto;
+            font-size: 12px;
+            color: #666;
         }
 
-        .devs-cost-section {
-            background-color: #f8d7da;
-            border: 1px solid #f5c6cb;
-            border-radius: 5px;
-            padding: 15px;
-            margin-bottom: 30px;
-        }
-        
-        .total-cost-section {
-            background-color: #d4edda;
-            border: 1px solid #c3e6cb;
-            border-radius: 5px;
-            padding: 15px;
-            margin: 30px 0;
-        }
-        
-        .activity-group-header {
-            background-color: #f5f5f5;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            border-left: 6px solid #3498db;
-        }
-        
-        .checkpoint {
-            background-color: #fff3cd;
-            padding: 20px;
-            margin: 30px 0;
-            border-radius: 5px;
-            border-left: 6px solid #ffc107;
-            text-align: center;
-        }
-        
-        /* Colores individuales para cada tipo de actividad */
-        .activity-a {
-            border-left: 4px solid #f39c12; /* Naranja */
-        }
-        .activity-b {
-            border-left: 4px solid #67b0e0; /* Azul */
-        }
-        .activity-c {
-            border-left: 4px solid #7de7a8; /* Verde */
-        }
-        .activity-d {
-            border-left: 4px solid #c593db; /* Morado */
-        }
-        .activity-e {
-            border-left: 4px solid #f0b68d; /* Rojo */
-        }
-        .activity-f {
-            border-left: 4px solid #7edecb; /* Verde azulado */
-        }
-        .activity-g {
-            border-left: 4px solid #f7dc6f; /* Amarillo */
-        }
-        .activity-h {
-            border-left: 4px solid #f1978e; /* Azul oscuro */
-        }
-        .activity-i {
-            border-left: 4px solid #75b9e7; /* Naranja oscuro */
-        }
-        .activity-j {
-            border-left: 4px solid #c893d8; /* Verde esmeralda */
-        }
-        .activity-k {
-            border-left: 4px solid #86e0ac; /* Morado oscuro */
-        }
-        .activity-l {
-            border-left: 4px solid #f0b68d; /* Azul acero */
-        }
-        .activity-m {
-            border-left: 4px solid #76e0cb; /* Rojo ladrillo */
-        }
-        .activity-n {
-            border-left: 4px solid #f7dc6f; /* Verde esmeralda */
-        }
-        .activity-o {
-            border-left: 4px solid #75b9e7; /* Naranja */
-        }
-        .activity-p {
-            border-left: 4px solid #c893d8; /* Gris */
+        .date-info {
+            font-size: 10px;
+            display: block;
+            line-height: 1.2;
         }
     </style>
 </head>
+
 <body>
-    <!-- Menú de navegación -->
+<!-- Menú de navegación -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
             <a class="navbar-brand" href="#">Proyecto de Gestión de Turnos</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" 
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">Inicio</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="actividades.html">Control de actividades <span class="sr-only">(actual)</span></a>
+                        <a class="nav-link" href="index.html">Inicio <span class="sr-only">(actual)</span></a>
                     </li>
                     <li class="nav-item">
-                    <a class="nav-link" href="totalactividades.html">Total de Actividades</a>
+                        <a class="nav-link" href="actividades.html">Control de actividades</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="totalactividades.html">Total de actividades</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
-
-    <div class="container content">
-        <p class="text-center mb-4">Punto de control: De 21 de abril a 2 de agosto de 2025 (3.4 meses)</p>
-        
-        <!-- Sección de costos de desarrolladores -->
-        <div class="devs-cost-section">
-            <h3 class="text-center mb-3">Costos de Equipo de Desarrollo</h3>
-            <div class="row">
-                <div class="col-md-6">
-                    <p><strong>Desarrolladores Junior:</strong> 4 personas</p>
-                    <p><strong>Salario mensual por desarrollador:</strong> $3,000,000 COP ($600 USD)</p>
-                    <p><strong>Salario mensual equipo completo:</strong> $12,000,000 COP ($2,400 USD)</p>
-                </div>
-                <div class="col-md-6">
-                    <p><strong>Duración del proyecto:</strong> 3.4 meses</p>
-                    <p><strong>Costo total equipo de desarrollo:</strong> $40,800,000 COP ($8,160 USD)</p>
-                    <p><strong>Nota:</strong> Los costos de las actividades incluyen materiales, herramientas y servicios adicionales.</p>
-                </div>
-            </div>
-        </div>
-        
-    <div class="container content">
-        <h2 class="text-center mb-4">Subactividades del Proyecto con Estimación de Costos</h2>
-        
-        <!-- Grupo de actividades A -->
-        <div class="activity-group-header" id="group-a">
-            <h3>Definir requisitos funcionales y no funcionales (A.1 - A.4)</h3>
-            <div class="group-percentage"></div>
-        </div>
-        
-        <div class="activity activity-a">
-            <h3>A.1 Encuestas a los usuarios</h3>
-            <p><strong>Cómo se hace:</strong> Diseñar un cuestionario sobre tiempos de espera, satisfacción y mejoras deseadas. Aplicarlo presencialmente o por formularios digitales (Google Forms, Typeform). Analizar respuestas para identificar patrones.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Plataforma de encuestas, dispositivos móviles o impresos, acceso a usuarios.</p>
-            </div>
-            <div class="price-tag">Costo estimado: $25</div>
-            <div class="percentage-tag activity-percentage"></div>
-        </div>
-        
-        <div class="activity activity-a">
-            <h3>A.2 Estudiar métodos actuales</h3>
-            <p><strong>Cómo se hace:</strong> Revisar sistemas de gestión de filas en otras empresas, estudiar software similar (turnos digitales, citas previas). Analizar documentación técnica y realizar entrevistas con empleados o clientes.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Documentación de software, informes de uso, entrevistas, Internet.</p>
-            </div>
-            <div class="price-tag">Costo estimado: $30</div>
-            <div class="percentage-tag activity-percentage"></div>
-        </div>
-        
-        <div class="activity activity-a">
-            <h3>A.3 Definir funcionalidades específicas</h3>
-            <p><strong>Cómo se hace:</strong> Con base en encuestas y estudio de métodos, definir qué funciones tendrá el sistema (turnos virtuales, notificaciones, estimación de espera). Crear una lista priorizada y validar con stakeholders.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Reuniones con el equipo, software de gestión de proyectos (Trello, Notion), documentos de especificaciones.</p>
-            </div>
-            <div class="price-tag">Costo estimado: $42</div>
-            <div class="percentage-tag activity-percentage"></div>
-        </div>
-        
-        <div class="activity activity-a">
-            <h3>A.4 Documentar requerimientos</h3>
-            <p><strong>Cómo se hace:</strong> Redactar un documento con requisitos funcionales y no funcionales, diagramas de flujo y casos de uso. Validar con el equipo antes de finalizar.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Procesador de texto (Google Docs, Word), herramientas de diagramación (Draw.io, Lucidchart), retroalimentación de stakeholders.</p>
-            </div>
-            <div class="price-tag">Costo estimado: $35</div>
-            <div class="percentage-tag activity-percentage"></div>
-        </div>
-        
-        <!-- Grupo de actividades B -->
-        <div class="activity-group-header" id="group-b">
-            <h3>Análisis de mercado y viabilidad (B.1 - B.2)</h3>
-            <div class="group-percentage"></div>
-        </div>
-        
-        <div class="activity activity-b">
-            <h3>B.1 Estudio de competencia</h3>
-            <p><strong>Cómo se hace:</strong> Investigar soluciones similares en el mercado, comparar características, precios y opiniones de usuarios. Realizar un análisis FODA de competidores principales. Documentar fortalezas y debilidades para identificar oportunidades de diferenciación.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Acceso a internet, suscripciones a informes de mercado, herramientas de análisis competitivo, plantillas de comparativa.</p>
-            </div>
-            <div class="price-tag">Costo estimado: $40</div>
-            <div class="percentage-tag activity-percentage"></div>
-        </div>
-        
-        <div class="activity activity-b">
-            <h3>B.2 Análisis financiero</h3>
-            <p><strong>Cómo se hace:</strong> Calcular costos de desarrollo e implementación, estimar retorno de inversión. Crear modelos de precios para diferentes segmentos de clientes. Proyectar flujo de caja a 12-24 meses y presentar resultados al equipo directivo.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Software de hojas de cálculo (Excel, Google Sheets), herramientas de análisis financiero, plantillas de presupuesto, datos históricos de proyectos similares.</p>
-            </div>
-            <div class="price-tag">Costo estimado: $58</div>
-            <div class="percentage-tag activity-percentage"></div>
-        </div>
-        
-        <!-- Grupo de actividades C -->
-        <div class="activity-group-header" id="group-c">
-            <h3>Diseñar la arquitectura del sistema (C.1 - C.2)</h3>
-            <div class="group-percentage"></div>
-        </div>
-        
-        <div class="activity activity-c">
-            <h3>C.1 Casos de uso (Relación usuario-Software)</h3>
-            <p><strong>Cómo se hace:</strong> Identificar actores principales (clientes, empleados, administradores). Describir interacciones típicas con el sistema paso a paso. Documentar flujos normales y alternativos. Validar casos de uso con representantes de cada grupo de usuarios.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Herramientas de modelado UML, plantillas de casos de uso, software de documentación, sesiones con usuarios.</p>
-            </div>
-            <div class="price-tag">Costo estimado: $52</div>
-            <div class="percentage-tag activity-percentage"></div>
-        </div>
-        
-        <div class="activity activity-c">
-            <h3>C.2 Diagramar estructura del sistema</h3>
-            <p><strong>Cómo se hace:</strong> Crear diagramas arquitectónicos mostrando componentes principales y sus relaciones. Definir capas de aplicación (presentación, lógica, datos). Documentar integraciones con sistemas externos. Revisar con el equipo técnico para validar viabilidad.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Herramientas de diagramación (Draw.io, Lucidchart), software de modelado UML, plantillas de arquitectura, sesiones con arquitectos de software.</p>
-            </div>
-            <div class="price-tag">Costo estimado: $65</div>
-            <div class="percentage-tag activity-percentage"></div>
-        </div>
-        
-        <!-- Grupo de actividades D -->
-        <div class="activity-group-header" id="group-d">
-            <h3>Elaborar prototipo de interfaz de usuario (D.1 - D.2)</h3>
-            <div class="group-percentage"></div>
-        </div>
-        
-        <div class="activity activity-d">
-            <h3>D.1 Wireframes</h3>
-            <p><strong>Cómo se hace:</strong> Diseñar esquemas básicos de cada pantalla mostrando disposición de elementos clave. Esbozar flujos de navegación principales. Obtener feedback temprano sobre usabilidad. Iterar basándose en comentarios de stakeholders.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Herramientas de wireframing (Figma, Sketch, Adobe XD), plantillas UI, pizarras digitales, sesiones de colaboración con usuarios.</p>
-            </div>
-            <div class="price-tag">Costo estimado: $48</div>
-            <div class="percentage-tag activity-percentage"></div>
-        </div>
-        
-        <div class="activity activity-d">
-            <h3>D.2 Mockups interactivos</h3>
-            <p><strong>Cómo se hace:</strong> Transformar wireframes en diseños detallados con paleta de colores, tipografía e iconografía definitivas. Crear prototipos interactivos con enlaces entre pantallas. Realizar pruebas de usabilidad con usuarios representativos.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Software de diseño UI/UX (Figma, Adobe XD, InVision), bibliotecas de componentes, guías de estilo, herramientas de prototipado.</p>
-            </div>
-            <div class="price-tag">Costo estimado: $80</div>
-            <div class="percentage-tag activity-percentage"></div>
-        </div>
-        
-        <!-- Grupo de actividades E -->
-        <div class="activity-group-header" id="group-e">
-            <h3>Configurar el entorno de desarrollo (E.1 - E.3)</h3>
-            <div class="group-percentage"></div>
-        </div>
-        
-        <div class="activity activity-e">
-            <h3>E.1 Instalación de herramientas</h3>
-            <p><strong>Cómo se hace:</strong> Configurar entornos de desarrollo local para todos los miembros del equipo. Instalar IDEs, herramientas de control de versiones, frameworks y dependencias necesarias. Documentar el proceso para futuros miembros.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Guías de instalación, licencias de software, herramientas de virtualización, gestores de paquetes, documentación interna.</p>
-            </div>
-            <div class="price-tag">Costo estimado: $22</div>
-            <div class="percentage-tag activity-percentage"></div>
-        </div>
-        
-        <div class="activity activity-e">
-            <h3>E.2 Configuración de servidores</h3>
-            <p><strong>Cómo se hace:</strong> Aprovisionar servidores para entornos de desarrollo, pruebas y producción. Configurar sistemas operativos, servicios web, bases de datos y seguridad. Implementar estrategias de copia de seguridad y recuperación.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Servicios cloud (AWS, Azure, GCP), herramientas de IaC (Terraform, Ansible), conocimientos de administración de sistemas, documentación técnica.</p>
-            </div>
-            <div class="price-tag">Costo estimado: $55</div>
-            <div class="percentage-tag activity-percentage"></div>
-        </div>
-        
-        <div class="activity activity-e">
-            <h3>E.3 Configuración de repositorios</h3>
-            <p><strong>Cómo se hace:</strong> Crear estructura de repositorios de código. Definir rama principal y ramas de desarrollo. Establecer políticas de revisión de código y fusión. Configurar CI/CD para automatizar pruebas y despliegues.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Plataformas de gestión de repositorios (GitHub, GitLab, Bitbucket), herramientas CI/CD (Jenkins, GitHub Actions), documentación sobre flujos de trabajo Git.</p>
-            </div>
-            <div class="price-tag">Costo estimado: $30</div>
-            <div class="percentage-tag activity-percentage"></div>
-        </div>
-        
-        <!-- Grupo de actividades F -->
-        <div class="activity-group-header" id="group-f">
-            <h3>Diseñar la estructura de la base de datos (F.1 - F.2)</h3>
-            <div class="group-percentage"></div>
-        </div>
-        
-        <div class="activity activity-f">
-            <h3>F.1 Modelo de datos</h3>
-            <p><strong>Cómo se hace:</strong> Identificar entidades principales (usuarios, turnos, servicios). Definir relaciones y cardinalidad. Crear diagramas entidad-relación. Normalizar esquemas para optimizar almacenamiento y rendimiento.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Herramientas de modelado de datos (MySQL Workbench, pgModeler), sistemas de gestión de bases de datos, documentación de requisitos, expertos en datos.</p>
-            </div>
-            <div class="price-tag">Costo estimado: $58</div>
-            <div class="percentage-tag activity-percentage"></div>
-        </div>
-        
-        <div class="activity activity-f">
-            <h3>F.2 Implementación de esquemas</h3>
-            <p><strong>Cómo se hace:</strong> Traducir modelos conceptuales a scripts SQL. Crear tablas, índices, restricciones y procedimientos almacenados. Implementar migraciones para control de versiones. Preparar datos iniciales y de prueba.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Sistemas de gestión de bases de datos (PostgreSQL, MySQL), herramientas ORM, frameworks de migración, scripts de carga de datos.</p>
-            </div>
-            <div class="price-tag">Costo estimado: $50</div>
-            <div class="percentage-tag activity-percentage"></div>
-        </div>
-        
-        <!-- Grupo de actividades G -->
-        <div class="activity-group-header" id="group-g">
-            <h3>Implementar lógica de gestión de turnos y filas (G.1 - G.3)</h3>
-            <div class="group-percentage"></div>
-        </div>
-        
-        <div class="activity activity-g">
-            <h3>G.1 Algoritmos de gestión de filas</h3>
-            <p><strong>Cómo se hace:</strong> Diseñar lógica para manejar formación y avance de colas. Implementar manejo de excepciones (turnos perdidos, interrupciones). Optimizar para minimizar tiempos de espera globales. Probar con conjuntos de datos simulados.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Lenguajes de programación (Python, Java), bibliotecas matemáticas, herramientas de simulación, documentación sobre teoría de colas.</p>
-            </div>
-            <div class="price-tag">Costo estimado: $90</div>
-            <div class="percentage-tag activity-percentage"></div>
-        </div>
-        
-        <div class="activity activity-g">
-            <h3>G.2 Sistema de asignación de turnos</h3>
-            <p><strong>Cómo se hace:</strong> Implementar mecanismos para generar identificadores únicos de turnos. Desarrollar interfaces para solicitud de turnos por diferentes canales. Crear sistema de confirmación y recordatorios. Gestionar cancelaciones y reprogramaciones.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Frameworks de desarrollo, APIs de comunicación, herramientas de generación de códigos QR, sistemas de notificación.</p>
-            </div>
-            <div class="price-tag">Costo estimado: $100</div>
-            <div class="percentage-tag activity-percentage"></div>
-        </div>
-        
-        <div class="activity activity-g">
-            <h3>G.3 Algoritmos de priorización</h3>
-            <p><strong>Cómo se hace:</strong> Diseñar reglas para identificar casos prioritarios. Implementar lógica de ponderación de factores (tipo de cliente, urgencia, tiempo de espera). Crear mecanismos de override manual para excepciones. Validar con simulaciones de carga.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Herramientas de análisis de datos, frameworks para reglas de negocio, simuladores de eventos discretos, reuniones con stakeholders para definir prioridades.</p>
-            </div>
-            <div class="price-tag">Costo estimado: $85</div>
-            <div class="percentage-tag activity-percentage"></div>
-        </div>
-        
-        <!-- Grupo de actividades H -->
-        <div class="activity-group-header" id="group-h">
-            <h3>Desarrollar sistema para operadores (H.1 - H.2)</h3>
-            <div class="group-percentage"></div>
-        </div>
-        
-        <div class="activity activity-h">
-            <h3>H.1 Desarrollo de panel de control</h3>
-            <p><strong>Cómo se hace:</strong> Crear interfaces administrativas con dashboards analíticos. Implementar visualizaciones de datos en tiempo real. Desarrollar herramientas de configuración de parámetros. Añadir funcionalidades de reportes y exportación de datos.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Frameworks frontend (React, Angular, Vue), bibliotecas de visualización (D3.js, Chart.js), herramientas de diseño UI, APIs para exportación de datos.</p>
-            </div>
-            <div class="price-tag">Costo estimado: $15</div>
-            <div class="percentage-tag activity-percentage"></div>
-        </div>
-        
-        <div class="activity activity-h">
-            <h3>H.2 Gestión de operadores</h3>
-            <p><strong>Cómo se hace:</strong> Desarrollar módulos para crear y administrar cuentas de operadores. Implementar control de acceso basado en roles. Diseñar interfaces para asignar tareas y monitorear productividad. Crear sistema de sesiones y turnos de trabajo.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Frameworks de autenticación, sistemas de gestión de identidad, bibliotecas de encriptación, APIs de calendario y agenda.</p>
-            </div>
-            <div class="price-tag">Costo estimado: $100</div>
-            <div class="percentage-tag activity-percentage"></div>
-        </div>
-        
-        <!-- Grupo de actividades I -->
-        <div class="activity-group-header" id="group-i">
-            <h3> Integrar sistema de notificaciones en tiempo real (I.1 - I.2)</h3>
-            <div class="group-percentage"></div>
-        </div>
-        
-        <div class="activity activity-i">
-            <h3>I.1 Sistema de notificaciones push</h3>
-            <p><strong>Cómo se hace:</strong> Implementar infraestructura para envío de notificaciones en tiempo real. Desarrollar mecanismos de suscripción para navegadores y apps. Crear plantillas de mensajes personalizables. Configurar sistema de seguimiento de entrega y lectura.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Servicios de notificaciones push (Firebase Cloud Messaging, OneSignal), WebSockets, servicios de mensajería en tiempo real, herramientas de seguimiento de eventos.</p>
-            </div>
-            <div class="price-tag">Costo estimado: $90</div>
-            <div class="percentage-tag activity-percentage"></div>
-        </div>
-        
-        <div class="activity activity-i">
-            <h3>I.2 Integraciones con SMS/email</h3>
-            <p><strong>Cómo se hace:</strong> Conectar con APIs de proveedores de mensajería. Desarrollar sistema de plantillas para diferentes tipos de comunicación. Implementar mecanismos de reintento y verificación de entrega. Configurar límites de envío para prevenir spam.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Servicios de envío de SMS (Twilio, Nexmo), proveedores de email transaccional (SendGrid, Mailgun), herramientas de templating, sistemas de colas para mensajes.</p>
-            </div>
-            <div class="price-tag">Costo estimado: $70</div>
-            <div class="percentage-tag activity-percentage"></div>
-        </div>
-        
-        <!-- Grupo de actividades J -->
-        <div class="activity-group-header" id="group-j">
-            <h3>Desarrollar interfaz de usuario web y móvil (J.1 - J.2)</h3>
-            <div class="group-percentage"></div>
-        </div>
-        
-        <div class="activity activity-j">
-            <h3>J.1 Desarrollo frontend web</h3>
-            <p><strong>Cómo se hace:</strong> Implementar interfaces de usuario basadas en mockups aprobados. Desarrollar componentes reutilizables. Integrar con APIs backend. Optimizar para diferentes tamaños de pantalla y navegadores. Implementar pruebas de UI automatizadas.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Frameworks JavaScript (React, Angular, Vue), preprocesadores CSS, herramientas de bundling, bibliotecas de componentes UI, herramientas de testing frontend.</p>
-            </div>
-            <div class="price-tag">Costo estimado: $22</div>
-            <div class="percentage-tag activity-percentage"></div>
-        </div>
-        
-        <div class="activity activity-j">
-            <h3>J.2 Desarrollo app móvil</h3>
-            <p><strong>Cómo se hace:</strong> Crear aplicaciones nativas o híbridas para iOS y Android. Implementar interfaces adaptadas a directrices de cada plataforma. Integrar funcionalidades específicas (notificaciones push, geolocalización). Optimizar para diferentes dispositivos y tamaños de pantalla.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Frameworks de desarrollo móvil (React Native, Flutter, Swift, Kotlin), herramientas de diseño UI móvil, APIs nativas, entornos de desarrollo móvil.</p>
-            </div>
-            <div class="price-tag">Costo estimado: $32</div>
-            <div class="percentage-tag activity-percentage"></div>
-        </div>
-        
-        <!-- Grupo de actividades K -->
-        <div class="activity-group-header" id="group-k">
-            <h3>Conectar frontend con backend mediante API (K.1 - K.2)</h3>
-            <div class="group-percentage"></div>
-        </div>
-        
-        <div class="activity activity-k">
-            <h3>K.1 Desarrollo de endpoints</h3>
-            <p><strong>Cómo se hace:</strong> Diseñar e implementar APIs RESTful o GraphQL. Crear endpoints para todas las operaciones necesarias. Documentar interfaces con especificaciones estándar. Implementar validación de entradas y manejo de errores.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Frameworks backend (Express, Django, Spring), herramientas de documentación API (Swagger, ReDoc), validadores de esquemas, metodologías de diseño API.</p>
-            </div>
-            <div class="price-tag">Costo estimado: $18</div>
-            <div class="percentage-tag activity-percentage"></div>
-        </div>
-        
-        <div class="activity activity-k">
-            <h3>K.2 Integración y pruebas de API</h3>
-            <p><strong>Cómo se hace:</strong> Verificar comunicación entre frontend y backend. Implementar pruebas automatizadas de endpoints. Validar respuestas, códigos de estado y formatos de datos. Simular condiciones de error y casos límite.</p>
-            <div class="resources">
-                <p><strong>Recursos:</strong> Herramientas de testing API (Postman, Insomnia), frameworks de testing (Jest, Mocha, PyTest), herramientas de mock, entornos de integración continua.</p>
-            </div>
-            <div class="price-tag">Costo estimado: $10</div>
-            <div class="percentage-tag activity-percentage"></div>
-        </div>
-        
-<button id="toggle-actividades-l-p" class="btn btn-primary mb-4">
-    Mostrar actividades L-P
-</button>
-
-
-
-        <!-- Punto de control -->
-        <div class="checkpoint">
-            <h3>Resto de activididades</h3>
-<div class="activity activity-l">
-    <h3>L.1 Pruebas unitarias</h3>
-
-
-    <p><strong>Cómo se hace:</strong> Desarrollar tests para funciones y componentes individuales. Implementar mocks y stubs para aislar dependencias. Medir cobertura de código. Automatizar ejecución en pipeline de CI/CD. Resolver problemas identificados.</p>
-    <div class="resources">
-        <p><strong>Recursos:</strong> Frameworks de testing unitario (Jest, JUnit, PyTest), herramientas de cobertura de código, bibliotecas de mocking, plataformas CI/CD.</p>
-    </div>
-    <div>Costo estimado: $9</div>
-</div>
-
-<div class="activity activity-l">
-    <h3>L.2 Pruebas de integración</h3>
-    <p><strong>Cómo se hace:</strong> Verificar interacción correcta entre componentes y sistemas. Implementar pruebas end-to-end de flujos principales. Configurar entornos de testing que emulen producción. Automatizar escenarios complejos con múltiples actores.</p>
-    <div class="resources">
-        <p><strong>Recursos:</strong> Herramientas de testing e2e (Cypress, Selenium), entornos de integración, bases de datos de prueba, servicios de CI/CD.</p>
-    </div>
-    <div>Costo estimado: $12</div>
-</div>
-
-<div class="activity activity-l">
-    <h3>L.3 Pruebas de aceptación</h3>
-    <p><strong>Cómo se hace:</strong> Organizar sesiones con usuarios reales o representantes. Documentar criterios de aceptación para cada historia de usuario. Verificar cumplimiento de requisitos desde perspectiva del usuario final. Recopilar y priorizar feedback.</p>
-    <div class="resources">
-        <p><strong>Recursos:</strong> Herramientas de gestión de pruebas, checklist de validación, usuarios beta, formularios de feedback, herramientas de grabación de sesiones.</p>
-    </div>
-    <div>Costo estimado: $80</div>
-</div>
-
-<div class="activity activity-m">
-    <h3>M.1 Auditoría de seguridad</h3>
-    <p><strong>Cómo se hace:</strong> Realizar análisis de vulnerabilidades en código y configuraciones. Implementar pruebas de penetración. Verificar protección contra ataques comunes (XSS, CSRF, inyección SQL). Revisar prácticas de autenticación y autorización. Documentar y resolver problemas encontrados.</p>
-    <div class="resources">
-        <p><strong>Recursos:</strong> Herramientas de análisis estático de código, scanners de vulnerabilidades, frameworks de pentest, guías de seguridad (OWASP), consultores de seguridad.</p>
-    </div>
-    <div>Costo estimado: $15</div>
-</div>
-
-<div class="activity activity-m">
-    <h3>M.2 Optimización de rendimiento</h3>
-    <p><strong>Cómo se hace:</strong> Identificar cuellos de botella con herramientas de profiling. Optimizar consultas de base de datos y algoritmos críticos. Implementar técnicas de caché. Realizar pruebas de carga y estrés. Configurar escalado horizontal/vertical según necesidades.</p>
-    <div class="resources">
-        <p><strong>Recursos:</strong> Herramientas de profiling y monitoreo, software de pruebas de carga (JMeter, Locust), servicios de caché, herramientas de análisis de rendimiento de bases de datos.</p>
-    </div>
-    <div>Costo estimado: $13</div>
-</div>
-
-<div class="activity activity-n">
-    <h3>N.1 Configuración de servidores</h3>
-    <p><strong>Cómo se hace:</strong> Preparar infraestructura de producción según especificaciones. Configurar balanceadores de carga, firewalls y sistemas de respaldo. Implementar monitoreo y alertas. Documentar topología y procedimientos operativos.</p>
-    <div class="resources">
-        <p><strong>Recursos:</strong> Servicios cloud (AWS, Azure, GCP), herramientas de IaC, sistemas de orquestación (Kubernetes, Docker Swarm), herramientas de monitoreo (Prometheus, Grafana).</p>
-    </div>
-    <div>Costo estimado: $12</div>
-</div>
-
-<div class="activity activity-n">
-    <h3>N.2 Despliegue en producción</h3>
-    <p><strong>Cómo se hace:</strong> Implementar estrategia de despliegue (blue-green, canary). Migrar datos necesarios. Configurar dominios y certificados. Realizar validaciones post-despliegue. Preparar plan de contingencia para rollback si es necesario.</p>
-    <div class="resources">
-        <p><strong>Recursos:</strong> Herramientas de CI/CD, sistemas de gestión de configuración, servicios DNS, proveedores de certificados SSL, checklists de despliegue.</p>
-    </div>
-    <div>Costo estimado: $12</div>
-</div>
-
-<div class="activity activity-o">
-    <h3>O.1 Preparación de materiales</h3>
-    <p><strong>Cómo se hace:</strong> Desarrollar manuales de usuario, guías rápidas y videos tutoriales. Crear documentación técnica para administradores. Preparar presentaciones para diferentes audiencias. Traducir materiales según necesidades regionales.</p>
-    <div class="resources">
-        <p><strong>Recursos:</strong> Herramientas de documentación, software de edición de video, plataformas e-learning, servicios de traducción, plantillas corporativas.</p>
-    </div>
-     <div>Costo estimado: $7</div>
-</div>
-
-<div class="activity activity-o">
-    <h3>O.2 Sesiones de capacitación</h3>
-    <p><strong>Cómo se hace:</strong> Organizar entrenamientos presenciales o virtuales. Preparar ejercicios prácticos y casos de uso reales. Recopilar preguntas frecuentes. Evaluar comprensión mediante pruebas. Proporcionar soporte post-capacitación.</p>
-    <div class="resources">
-        <p><strong>Recursos:</strong> Plataformas de videoconferencia, entornos de prueba, materiales impresos, formularios de evaluación, equipo de formadores.</p>
-    </div>
-    <div>Costo estimado: $80</div>
-</div>
-
-<div class="activity activity-p">
-    <h3>P.1 Configuración de monitoreo</h3>
-    <p><strong>Cómo se hace:</strong> Implementar sistemas de observabilidad (logs, métricas, trazas). Configurar dashboards operativos. Establecer umbrales para alertas. Crear procedimientos de respuesta a incidentes. Programar revisiones periódicas de rendimiento.</p>
-    <div class="resources">
-        <p><strong>Recursos:</strong> Herramientas de monitoreo (Prometheus, Grafana, ELK Stack), servicios de alerta, sistemas de tickets, documentación de procedimientos operativos.</p>
-    </div>
-    <div>Costo estimado: $50</div>
-</div>
-
-<div class="activity activity-p">
-    <h3>P.2 Recolección de feedback</h3>
-    <p><strong>Cómo se hace:</strong> Implementar mecanismos de retroalimentación dentro de la aplicación. Realizar encuestas de satisfacción periódicas. Organizar grupos focales con usuarios clave. Analizar métricas de uso. Priorizar sugerencias según impacto y esfuerzo.</p>
-    <div class="resources">
-        <p><strong>Recursos:</strong> Herramientas de encuestas, software de análisis cualitativo, plataformas de gestión de feedback, herramientas de analítica.</p>
-    </div>
-    <div>Costo estimado: $70</div>
-</div>
-
-<div class="activity activity-p">
-    <h3>P.3 Implementación de mejoras</h3>
-    <p><strong>Cómo se hace:</strong> Planificar ciclos de mejora continua basados en feedback y datos de uso. Priorizar cambios según impacto y recursos disponibles. Implementar, probar y desplegar actualizaciones. Comunicar nuevas funcionalidades a usuarios.</p>
-    <div class="resources">
-        <p><strong>Recursos:</strong> Herramientas de gestión de proyectos ágiles, sistemas de control de versiones, entornos de desarrollo/prueba, canales de comunicación con usuarios.</p>
-    </div>
-    <div>Costo estimado: $100</div>
-</div>
-
-    <!-- Bootstrap JS y dependencias -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/js/bootstrap.min.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const tasaCambio = 4000; // Tasa COP -> USD (inversa de la original)
     
-    const botonToggle = document.getElementById('toggle-actividades-l-p');
-    const actividades = document.querySelectorAll('.activity');
-    const priceTags = document.querySelectorAll('.price-tag');
-    const grupos = {}; // Guardar sumas por grupo (A, B, C, etc.)
-    const activities = [];
-
-    let total = 0;
-    let dentroPuntoControl = true;
-
-    // --- Inicializar: Ocultar actividades L-P al cargar ---
-    actividades.forEach(activity => {
-        const nombreActividad = activity.querySelector('h3').textContent.trim();
-        const letraGrupo = nombreActividad.charAt(0).toUpperCase();
-
-        if (letraGrupo >= 'L' && letraGrupo <= 'P') {
-            activity.classList.add('d-none'); // Ocultar al cargar
-        }
-    });
-
-    // --- Botón Mostrar/Ocultar dinámico ---
-    if (botonToggle) {
-        botonToggle.addEventListener('click', function() {
-            let visibles = false;
+    <div class="container">
+        <h1>Diagrama de Gantt - Proyecto de Gestión de Turnos</h1>
+        <p class="text-center">Fecha de inicio: 21 de abril de 2025 | Fecha estimada de finalización: 6 de octubre de 2025</p>
+        
+        <div class="gantt-chart">
+            <!-- Time Axis -->
+            <div class="time-axis">
+                <div class="axis-unit">Actividad</div>
+                <div class="axis-unit">21-27<br>Abril</div>
+                <div class="axis-unit">28 Abr-<br>4 May</div>
+                <div class="axis-unit">5-11<br>Mayo</div>
+                <div class="axis-unit">12-18<br>Mayo</div>
+                <div class="axis-unit">19-25<br>Mayo</div>
+                <div class="axis-unit">26 May-<br>1 Jun</div>
+                <div class="axis-unit">2-8<br>Junio</div>
+                <div class="axis-unit">9-15<br>Junio</div>
+                <div class="axis-unit">16-22<br>Junio</div>
+                <div class="axis-unit">23-29<br>Junio</div>
+                <div class="axis-unit">30 Jun-<br>6 Jul</div>
+                <div class="axis-unit">7-13<br>Julio</div>
+                <div class="axis-unit">14-20<br>Julio</div>
+                <div class="axis-unit">21-27<br>Julio</div>
+                <div class="axis-unit">28 Jul-<br>3 Ago</div>
+                <div class="axis-unit">4-10<br>Agosto</div>
+                <div class="axis-unit">11-17<br>Agosto</div>
+                <div class="axis-unit">18-24<br>Agosto</div>
+                <div class="axis-unit">25-31<br>Agosto</div>
+                <div class="axis-unit">1-7<br>Sept</div>
+                <div class="axis-unit">8-14<br>Sept</div>
+                <div class="axis-unit">15-21<br>Sept</div>
+                <div class="axis-unit">22-28<br>Sept</div>
+                <div class="axis-unit">29 Sep-<br>5 Oct</div>
+            </div>
             
-            actividades.forEach(activity => {
-                const nombreActividad = activity.querySelector('h3').textContent.trim();
-                const letraGrupo = nombreActividad.charAt(0).toUpperCase();
-
-                if (letraGrupo >= 'L' && letraGrupo <= 'P') {
-                    activity.classList.toggle('d-none');
-                    visibles = !activity.classList.contains('d-none');
-                }
-            });
-
-            botonToggle.textContent = visibles ? 'Ocultar actividades L-P' : 'Mostrar actividades L-P';
-        });
-    }
-
-    // --- Nuevos montos desde lol.txt ---
-    const presupuestoCOP = {
-        'A.1': 1200000,
-        'A.2': 1500000,
-        'A.3': 2100000,
-        'A.4': 1750000,
-        'B.1': 2000000,
-        'B.2': 2900000,
-        'C.1': 2600000,
-        'C.2': 3250000,
-        'D.1': 2400000,
-        'D.2': 4000000,
-        'E.1': 1100000,
-        'E.2': 2750000,
-        'E.3': 1500000,
-        'F.1': 2900000,
-        'F.2': 2500000,
-        'G.1': 4500000,
-        'G.2': 5000000,
-        'G.3': 4250000,
-        'H.1': 3750000,
-        'H.2': 5000000,
-        'I.1': 4500000,
-        'I.2': 3500000,
-        'J.1': 4600000,
-        'J.2': 5200000,
-        'K.1': 4600000,
-        'K.2': 3000000  // Estimado ya que no aparece en lol.txt
-    };
-
-    // --- Procesar actividades y calcular costos ---
-    priceTags.forEach(tag => {
-        const activityDiv = tag.closest('.activity');
-        const activityName = activityDiv.querySelector('h3').textContent.trim();
-        const activityCode = activityName.split(' ')[0]; // Obtiene "A.1", "B.2", etc.
-        const groupLetter = activityCode.charAt(0).toUpperCase();
-
-        // Verifica si estamos en punto de control (A-K)
-        if (groupLetter > 'K') dentroPuntoControl = false;
-
-        // Obtiene o estima el precio en COP
-        let precioCOP = presupuestoCOP[activityCode] || 0;
-        
-        // Calcula precio USD
-        let precioUSD = Math.round(precioCOP / tasaCambio);
-
-        // Actualiza el tag de precio con ambas monedas
-        tag.innerHTML = `Costo estimado: $${precioUSD.toLocaleString('en-US')} <span class="text-muted ml-2" style="font-size: 0.9em;">($${precioCOP.toLocaleString('es-CO')} COP)</span>`;
-
-        activities.push({
-            group: groupLetter,
-            priceCOP: precioCOP,
-            priceUSD: precioUSD,
-            tag: tag,
-            activityDiv: activityDiv,
-            activityName: activityName,
-            activityCode: activityCode,
-            dentroPuntoControl: dentroPuntoControl
-        });
-
-        // Acumular costos por grupo dentro del punto de control
-        if (dentroPuntoControl) {
-            total += precioUSD;
-            grupos[groupLetter] = (grupos[groupLetter] || 0) + precioUSD;
-        }
-    });
-
-    // --- Mostrar % y costo total de cada grupo ---
-    for (const [grupo, costoGrupoUSD] of Object.entries(grupos)) {
-        const porcentajeGrupo = (costoGrupoUSD / total) * 100;
-        const costoGrupoCOP = costoGrupoUSD * tasaCambio;
-
-        const groupHeader = document.querySelector(`#group-${grupo.toLowerCase()} .group-percentage`);
-        if (groupHeader) {
-            groupHeader.innerHTML = `
-                <div class="percentage-tag mb-2">
-                    ${porcentajeGrupo.toFixed(2)}% del costo total
-                </div>
-                <div class="text-muted small">
-                    USD: $${costoGrupoUSD.toLocaleString('en-US')} <br>
-                    COP: $${costoGrupoCOP.toLocaleString('es-CO')}
-                </div>
-            `;
-        }
-    }
-
-    // --- Mostrar % por actividad respecto a su grupo ---
-    activities.forEach(activity => {
-        if (grupos[activity.group] && activity.dentroPuntoControl) {
-            const porcentajeActividad = (activity.priceUSD / grupos[activity.group]) * 100;
-            const porcentajeTotal = (activity.priceUSD / total) * 100;
-
-            const porcentajeDiv = activity.activityDiv.querySelector('.activity-percentage');
-            if (porcentajeDiv) {
-                porcentajeDiv.innerHTML = `
-                    ${porcentajeActividad.toFixed(2)}% del grupo ${activity.group} <br>
-                    <span class="text-muted small">${porcentajeTotal.toFixed(2)}% del presupuesto total</span>
-                `;
-            }
-        }
-    });
-
-    // --- Mostrar total del proyecto ---
-    const totalCOP = total * tasaCambio;
-    const container = document.querySelector('.container.content') || document.body;
-    
-    // Verificar si ya existe un div de total para no duplicarlo
-    let totalDiv = document.querySelector('.total-project-cost');
-    if (!totalDiv) {
-        totalDiv = document.createElement('div');
-        totalDiv.classList.add('card', 'bg-light', 'mt-5', 'mb-5', 'total-project-cost');
-        totalDiv.innerHTML = `
-            <div class="card-body text-center">
-                <h3 class="card-title text-primary">Costo Total Estimado del Proyecto (Primeros 3.4 meses)</h3>
-                <div class="h4 mt-3 font-weight-bold text-success">
-                    USD: $${total.toLocaleString('en-US')}
-                </div>
-                <div class="h5 mt-2 text-muted">
-                    COP: $${totalCOP.toLocaleString('es-CO')}
-                </div>
-                <div class="mt-3 small text-muted">
-                    Incluye costos de desarrollo, herramientas y servicios adicionales
-                </div>
+            <!-- Activity A and subtasks -->
+            <div class="gantt-row main-task">
+                <div class="task-label">A. Definir requisitos funcionales y<br> no funcionales <span class="critical-badge">Crítica</span><span class="task-info">2 sem</span></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="time-unit"></div>
+                <div class="bar critical" style="left: 280px; width: 100px; background-color: #e74c3c;">A</div>
             </div>
-        `;
-        container.appendChild(totalDiv);
-    }
-
-    // --- Agregar sección de costos de equipo de desarrollo si no existe ---
-    let devsCostSection = document.querySelector('.devs-cost-section');
-    if (!devsCostSection) {
-        devsCostSection = document.createElement('div');
-        devsCostSection.classList.add('devs-cost-section', 'card', 'mb-4');
-        devsCostSection.innerHTML = `
-            <div class="card-body">
-                <h3 class="text-center mb-3">Costos de Equipo de Desarrollo</h3>
-                <div class="row">
-                    <div class="col-md-6">
-                        <p><strong>Desarrolladores Junior:</strong> 4 personas</p>
-                        <p><strong>Salario mensual por desarrollador:</strong> $3,000,000 COP ($750 USD)</p>
-                        <p><strong>Salario mensual equipo completo:</strong> $12,000,000 COP ($3,000 USD)</p>
-                    </div>
-                    <div class="col-md-6">
-                        <p><strong>Duración del proyecto:</strong> 3.4 meses</p>
-                        <p><strong>Costo total equipo de desarrollo:</strong> $40,800,000 COP ($10,200 USD)</p>
-                        <p><strong>Nota:</strong> Los costos de las actividades incluyen materiales, herramientas y servicios adicionales.</p>
-                    </div>
-                </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">A.1 Encuestas a los<br> usuarios<span class="task-info">1 sem</span></div>
+                <div class="bar" style="left: 280px; width: 50px; background-color: #f39c12;">A.1</div>
             </div>
-        `;
+            <div class="gantt-row">
+                <div class="task-label subtask">A.2 Estudiar métodos<br> actuales<span class="task-info">2 sem</span></div>
+                <div class="bar" style="left: 280px; width: 100px; background-color: #f39c12;">A.2</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">A.3 Definir funcionalidades<br> específicas<span class="task-info">1 sem</span></div>
+                <div class="bar" style="left: 330px; width: 50px; background-color: #f39c12;">A.3</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">A.4 Documentar <br>requerimientos<span class="task-info">1 sem</span></div>
+                <div class="bar" style="left: 330px; width: 50px; background-color: #f39c12;">A.4</div>
+            </div>
+            
+            <!-- Activity B and subtasks -->
+            <div class="gantt-row main-task">
+                <div class="task-label">B. Análisis de mercado<br> y viabilidad<span class="task-info">2 sem</span></div>
+                <div class="bar" style="left: 280px; width: 100px; background-color: #3498db;">B</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">B.1 Estudio de <br>competencia<span class="task-info">2 sem</span></div>
+                <div class="bar" style="left: 280px; width: 100px; background-color: #67b0e0;">B.1</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">B.2 Análisis financiero<span class="task-info">2 sem</span></div>
+                <div class="bar" style="left: 330px; width: 50px; background-color: #67b0e0;">B.2</div>
+            </div>
+            
+            <!-- Activity C and subtasks -->
+            <div class="gantt-row main-task">
+                <div class="task-label">C. Diseñar la arquitectura<br> del sistema <span class="critical-badge">Crítica</span><span class="task-info">2 sem</span></div>
+                <div class="bar critical" style="left: 380px; width: 100px; background-color: #2ecc71;">C</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">C.1 Casos de uso<br> (Relación usuario-Software)<span class="task-info">1 sem</span></div>
+                <div class="bar" style="left: 380px; width: 50px; background-color: #7de7a8;">C.1</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">C.2 Diagramar estructura <br>del sistema<span class="task-info">1.5 sem</span></div>
+                <div class="bar" style="left: 400px; width: 80px; background-color: #7de7a8;">C.2</div>
+            </div>
+            
+            <!-- Activity D and subtasks -->
+            <div class="gantt-row main-task">
+                <div class="task-label">D. Elaborar prototipo <br>de interfaz de usuario<span class="task-info">2 sem</span></div>
+                <div class="bar" style="left: 380px; width: 100px; background-color: #9b59b6;">D</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">D.1 Wireframes<span class="task-info">2 sem</span></div>
+                <div class="bar" style="left: 380px; width: 100px; background-color: #c593db;">D.1</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">D.2 Mockups interactivos<span class="task-info">1.8 sem</span></div>
+                <div class="bar" style="left: 400px; width: 80px; background-color: #c593db;">D.2</div>
+            </div>
+            
+            <!-- Activity E and subtasks -->
+            <div class="gantt-row main-task">
+                <div class="task-label">E. Configurar el entorno<br> de desarrollo <span class="critical-badge">Crítica</span><span class="task-info">1.5 sem</span></div>
+                <div class="bar critical" style="left: 480px; width: 75px; background-color: #e67e22;">E</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">E.1 Instalación de herramientas<span class="task-info">0.5 sem</span></div>
+                <div class="bar" style="left: 480px; width: 25px; background-color: #f0b68d;">E.1</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">E.2 Configuración de servidores<span class="task-info">0.5 sem</span></div>
+                <div class="bar" style="left: 505px; width: 25px; background-color: #f0b68d;">E.2</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">E.3 Configuración de repositorios<span class="task-info">0.5 sem</span></div>
+                <div class="bar" style="left: 530px; width: 25px; background-color: #f0b68d;">E.3</div>
+            </div>
+            
+            <!-- Activity F and subtasks -->
+            <div class="gantt-row main-task">
+                <div class="task-label">F. Diseñar la estructura de <br>la base de datos <span class="critical-badge">Crítica</span><span class="task-info">2 sem</span></div>
+                <div class="bar critical" style="left: 555px; width: 100px; background-color: #1abc9c;">F</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">F.1 Modelo de datos<span class="task-info">1 sem</span></div>
+                <div class="bar" style="left: 555px; width: 50px; background-color: #7edecb;">F.1</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">F.2 Implementación de esquemas<span class="task-info">1.8 sem</span></div>
+                <div class="bar" style="left: 595px; width: 60px; background-color: #7edecb;">F.2</div>
+            </div>
+            
+            <!-- Activity G and subtasks -->
+            <div class="gantt-row main-task">
+                <div class="task-label">G. Implementar lógica de <br>gestión de turnos y filas <span class="critical-badge">Crítica</span><span class="task-info">4 sem</span></div>
+                <div class="bar critical" style="left: 655px; width: 200px; background-color: #f1c40f;">G</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">G.1 Algoritmos de gestión de filas<span class="task-info">1.5 sem</span></div>
+                <div class="bar" style="left: 655px; width: 75px; background-color: #f7dc6f;">G.1</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">G.2 Sistema de asignación de turnos<span class="task-info">1.8 sem</span></div>
+                <div class="bar" style="left: 730px; width: 75px; background-color: #f7dc6f;">G.2</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">G.3 Algoritmos de priorización<span class="task-info">1 sem</span></div>
+                <div class="bar" style="left: 805px; width: 50px; background-color: #f7dc6f;">G.3</div>
+            </div>
+            
+            <!-- Activity H and subtasks -->
+            <div class="gantt-row main-task">
+                <div class="task-label">H. Desarrollar sistema para operadores <span class="critical-badge">Crítica</span><span class="task-info">3 sem</span></div>
+                <div class="bar critical" style="left: 855px; width: 150px; background-color: #e74c3c;">H</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">H.1 Desarrollo de panel de control<span class="task-info">2.5 sem</span></div>
+                <div class="bar" style="left: 855px; width: 115px; background-color: #f1978e;">H.1</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">H.2 Gestión de operadores<span class="task-info">1.5 sem</span></div>
+                <div class="bar" style="left: 930px; width: 75px; background-color: #f1978e;">H.2</div>
+            </div>
+            
+            <!-- Activity I and subtasks -->
+            <div class="gantt-row main-task">
+                <div class="task-label">I. Integrar sistema de notificaciones en tiempo real<span class="task-info">2.5 sem</span></div>
+                <div class="bar" style="left: 855px; width: 125px; background-color: #3498db;">I</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">I.1 Sistema de notificaciones push<span class="task-info">1.5 sem</span></div>
+                <div class="bar" style="left: 855px; width: 75px; background-color: #75b9e7;">I.1</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">I.2 Integraciones con SMS/email<span class="task-info">1 sem</span></div>
+                <div class="bar" style="left: 930px; width: 50px; background-color: #75b9e7;">I.2</div>
+            </div>
+            
+            <!-- Activity J and subtasks -->
+            <div class="gantt-row main-task">
+                <div class="task-label">J. Desarrollar interfaz de usuario web y móvil<span class="task-info">4 sem</span></div>
+                <div class="bar" style="left: 655px; width: 200px; background-color: #9b59b6;">J</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">J.1 Desarrollo frontend web<span class="task-info">2 sem</span></div>
+                <div class="bar" style="left: 655px; width: 100px; background-color: #c893d8;">J.1</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">J.2 Desarrollo app móvil<span class="task-info">2 sem</span></div>
+                <div class="bar" style="left: 755px; width: 100px; background-color: #c893d8;">J.2</div>
+            </div>
+            
+            <!-- Activity K and subtasks -->
+            <div class="gantt-row main-task">
+                <div class="task-label">K. Conectar frontend con backend mediante API <span class="critical-badge">Crítica</span><span class="task-info">2 sem</span></div>
+                <div class="bar critical" style="left: 1005px; width: 100px; background-color: #2ecc71;">K</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">K.1 Desarrollo de endpoints<span class="task-info">1 sem</span></div>
+                <div class="bar" style="left: 1005px; width: 50px; background-color: #86e0ac;">K.1</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">K.2 Integración y pruebas de API<span class="task-info">1 sem</span></div>
+                <div class="bar" style="left: 1055px; width: 50px; background-color: #86e0ac;">K.2</div>
+            </div>
+            
+            <!-- Activity L and subtasks -->
+            <div class="gantt-row main-task">
+                <div class="task-label">L. Pruebas funcionales y de integración <span class="critical-badge">Crítica</span><span class="task-info">2 sem</span></div>
+                <div class="bar critical" style="left: 1105px; width: 100px; background-color: #e67e22;">L</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">L.1 Pruebas unitarias<span class="task-info">0.5 sem</span></div>
+                <div class="bar" style="left: 1105px; width: 25px; background-color: #f0b68d;">L.1</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">L.2 Pruebas de integración<span class="task-info">0.5 sem</span></div>
+                <div class="bar" style="left: 1130px; width: 25px; background-color: #f0b68d;">L.2</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">L.3 Pruebas de aceptación<span class="task-info">1 sem</span></div>
+                <div class="bar" style="left: 1155px; width: 50px; background-color: #f0b68d;">L.3</div>
+            </div>
+            
+            <!-- Activity M and subtasks -->
+            <div class="gantt-row main-task">
+                <div class="task-label">M. Optimización de rendimiento y seguridad <span class="critical-badge">Crítica</span><span class="task-info">2 sem</span></div>
+                <div class="bar critical" style="left: 1205px; width: 100px; background-color: #1abc9c;">M</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">M.1 Auditoría de seguridad<span class="task-info">1 sem</span></div>
+                <div class="bar" style="left: 1205px; width: 50px; background-color: #76e0cb;">M.1</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">M.2 Optimización de rendimiento<span class="task-info">1 sem</span></div>
+                <div class="bar" style="left: 1255px; width: 50px; background-color: #76e0cb;">M.2</div>
+            </div>
+            
+            <!-- Activity N and subtasks -->
+            <div class="gantt-row main-task">
+                <div class="task-label">N. Configuración del servidor y despliegue <span class="critical-badge">Crítica</span><span class="task-info">1 sem</span></div>
+                <div class="bar critical" style="left: 1305px; width: 50px; background-color: #f1c40f;">N</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">N.1 Configuración de servidores<span class="task-info">0.5 sem</span></div>
+                <div class="bar" style="left: 1305px; width: 25px; background-color: #f7dc6f;">N.1</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">N.2 Despliegue en producción<span class="task-info">0.5 sem</span></div>
+                <div class="bar" style="left: 1330px; width: 25px; background-color: #f7dc6f;">N.2</div>
+            </div>
+            
+            <!-- Activity O and subtasks -->
+            <div class="gantt-row main-task">
+                <div class="task-label">O. Capacitación para administradores<span class="task-info">1 sem</span></div>
+                <div class="bar" style="left: 1355px; width: 50px; background-color: #3498db;">O</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">O.1 Preparación de materiales<span class="task-info">0.5 sem</span></div>
+                <div class="bar" style="left: 1355px; width: 25px; background-color: #75b9e7;">O.1</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">O.2 Sesiones de capacitación<span class="task-info">0.5 sem</span></div>
+                <div class="bar" style="left: 1380px; width: 25px; background-color: #75b9e7;">O.2</div>
+            </div>
+            
+            <!-- Activity P and subtasks -->
+            <div class="gantt-row main-task">
+                <div class="task-label">P. Monitoreo y ajustes post-lanzamiento <span class="critical-badge">Crítica</span><span class="task-info">2 sem</span></div>
+                <div class="bar critical" style="left: 1355px; width: 100px; background-color: #9b59b6;">P</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">P.1 Configuración de monitoreo<span class="task-info">0.5 sem</span></div>
+                <div class="bar" style="left: 1355px; width: 25px; background-color: #c893d8;">P.1</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">P.2 Recolección de feedback<span class="task-info">0.5 sem</span></div>
+                <div class="bar" style="left: 1380px; width: 25px; background-color: #c893d8;">P.2</div>
+            </div>
+            <div class="gantt-row">
+                <div class="task-label subtask">P.3 Implementación de mejoras<span class="task-info">1 sem</span></div>
+                <div class="bar" style="left: 1405px; width: 50px; background-color: #c893d8;">P.3</div>
+            </div>
+        </div>
         
-        // Insertar después del título
-        const titleElement = document.querySelector('.content h2') || container.firstChild;
-        if (titleElement && titleElement.nextSibling) {
-            container.insertBefore(devsCostSection, titleElement.nextSibling);
-        } else {
-            container.prepend(devsCostSection);
-        }
-    }
-});
-</script>
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #e74c3c;"></div>
+                <div>Actividad A/H</div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #3498db;"></div>
+                <div>Actividad B/I/O</div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #2ecc71;"></div>
+                <div>Actividad C/K</div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #9b59b6;"></div>
+                <div>Actividad D/J/P</div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #e67e22;"></div>
+                <div>Actividad E/L</div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #1abc9c;"></div>
+                <div>Actividad F/M</div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #f1c40f;"></div>
+                <div>Actividad G/N</div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color critical" style="border: 2px solid rgba(0,0,0,0.2);"></div>
+                <div>Ruta Crítica</div>
+            </div>
+        </div>
+    </div>
 
-</body>
-</html>
+
+<img id="translator-icon" src="chrome-extension://ofjbpjokjnflcmdjpnocfdonajdoando/icons/icon-128.png" style="display: none;"><div id="translator-container" style="display: none;">
+<div class="rapid-header">
+  <img src="chrome-extension://ofjbpjokjnflcmdjpnocfdonajdoando/icons/logo.svg">
+  <img id="rapid-copy" src="chrome-extension://ofjbpjokjnflcmdjpnocfdonajdoando/icons/copy.svg">
+</div><div id="rapid-text-wrapper"><span></span></div>
+
+<div class="rapid-footer">
+  <span id="rapid-first-language">ENG</span>
+  <img id="rapid-arrow-icon" src="chrome-extension://ofjbpjokjnflcmdjpnocfdonajdoando/icons/r-arrow.svg">
+  <span id="rapid-second-language">FRN</span>
+</div></div></body></html>
